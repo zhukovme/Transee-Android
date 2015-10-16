@@ -34,10 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void onNavSettingsClick(View view) {
         Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+        mDrawer.closeDrawer(GravityCompat.START);
     }
 
     public void onChangeCityClick(View view) {
         Toast.makeText(this, "Change City", Toast.LENGTH_SHORT).show();
+        mDrawer.closeDrawer(GravityCompat.START);
     }
 
     @Override
