@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Transee</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_search">Search</string>
+    <string name="app_short_info">App for tracking public transport</string>
+    <string name="nav_history_title">History</string>
+</resources>

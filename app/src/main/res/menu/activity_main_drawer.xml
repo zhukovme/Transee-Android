@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/nav_history_title">
+        <menu>
+            <item
+                android:id="@+id/nav_tr1"
+                android:icon="@android:drawable/ic_menu_view"
+                android:title="Transport 1"/>
+            <item
+                android:id="@+id/nav_tr2"
+                android:icon="@android:drawable/ic_menu_view"
+                android:title="Transport 2"/>
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="Settings"/>
+        <item
+            android:id="@+id/nav_change_city"
+            android:icon="@android:drawable/ic_menu_revert"
+            android:title="Change city"/>
+    </group>
+
+</menu>
