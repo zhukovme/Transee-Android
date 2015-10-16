@@ -1,9 +1,6 @@
 package in.transee.transee;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     DrawerLayout mDrawer;
 
@@ -24,16 +23,21 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawer.setDrawerListener(toggle);
+        mDrawer.setDrawerShadow(R.drawable.drawer_dropshadow, GravityCompat.START);
         toggle.syncState();
+    }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    public void onNavSettingsClick(View view) {
+        Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onChangeCityClick(View view) {
+        Toast.makeText(this, "Change City", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -59,15 +63,5 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-        }
-        mDrawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }

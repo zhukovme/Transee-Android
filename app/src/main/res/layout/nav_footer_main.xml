@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="onNavSettingsClick">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:drawablePadding="32dp"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:text="@string/nav_settings_title"
+            android:textColor="@android:color/black"
+            android:drawableLeft="@drawable/ic_settings_grey600_24dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="onChangeCityClick">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:drawablePadding="32dp"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:text="@string/nav_change_city_title"
+            android:textColor="@android:color/black"
+            android:drawableLeft="@drawable/ic_reply_grey600_24dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

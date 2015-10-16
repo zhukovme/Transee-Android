@@ -7,5 +7,16 @@
     <color name="colorFamPressed">#FFA000</color>
     <color name="colorIcon">#37c4ad</color>
     <color name="colorIconDark">#299483</color>
+    <color name="red500">#F44336</color>
+    <color name="red700">#D32F2F</color>
+    <color name="green500">#4CAF50</color>
+    <color name="green700">#388E3C</color>
+    <color name="orange500">#FF9800</color>
+    <color name="orange700">#F57C00</color>
+    <color name="brown500">#795548</color>
+    <color name="brown700">#5D4037</color>
+    <color name="blackSemiTransparent">#B2000000</color>
+    <color name="backgroundDefault">#eeeeee</color>
+    <color name="dividerColor">#FFd3d3d3</color>
 
 </resources>

@@ -29,33 +29,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fam_margin"
+        android:layout_margin="@dimen/fab_margin"
         app:fab_addButtonColorNormal="@color/colorAccent"
-        app:fab_addButtonColorPressed="@color/colorFamPressed">
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_show_several"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_size="mini"
-            app:fab_colorNormal="@color/colorIconDark"
-            app:fab_title="Show several transports"/>
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_next_to_me"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_size="mini"
-            app:fab_colorNormal="@color/colorIconDark"
-            app:fab_title="Next to me"/>
+        app:fab_addButtonColorPressed="@color/colorFamPressed"
+        app:fab_labelStyle="@style/menu_labels_style">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_schedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_size="mini"
-            app:fab_colorNormal="@color/colorIconDark"
+            app:fab_colorNormal="@color/green500"
+            app:fab_colorPressed="@color/green700"
+            app:fab_icon="@drawable/ic_calendar_clock_white_24dp"
             app:fab_title="Schedule"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_next_to_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_size="mini"
+            app:fab_colorNormal="@color/brown500"
+            app:fab_colorPressed="@color/brown700"
+            app:fab_icon="@drawable/ic_map_marker_radius_white_24dp"
+            app:fab_title="Next to me"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_show_several"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_size="mini"
+            app:fab_colorNormal="@color/red500"
+            app:fab_colorPressed="@color/red700"
+            app:fab_icon="@drawable/ic_map_marker_multiple_white_24dp"
+            app:fab_title="Show several transports"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
