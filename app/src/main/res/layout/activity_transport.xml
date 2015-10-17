@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_main"
+        layout="@layout/app_bar_transport"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -35,7 +35,7 @@
 
         <fragment
             android:id="@+id/lv_history"
-            android:name="in.transee.transee.HistoryListFragment"
+            android:name="in.transee.transee.fragment.HistoryListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/divider"/>

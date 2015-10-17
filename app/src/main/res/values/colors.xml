@@ -18,5 +18,6 @@
     <color name="blackSemiTransparent">#B2000000</color>
     <color name="backgroundDefault">#eeeeee</color>
     <color name="dividerColor">#FFd3d3d3</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

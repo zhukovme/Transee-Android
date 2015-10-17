@@ -1,5 +1,6 @@
-package in.transee.transee;
+package in.transee.transee.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,17 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import in.transee.transee.R;
+
+public class TransportActivity extends AppCompatActivity {
 
     DrawerLayout mDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_transport);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -34,12 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void onNavSettingsClick(View view) {
         Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
-        mDrawer.closeDrawer(GravityCompat.START);
+        onBackPressed();
     }
 
     public void onChangeCityClick(View view) {
-        Toast.makeText(this, "Change City", Toast.LENGTH_SHORT).show();
-        mDrawer.closeDrawer(GravityCompat.START);
+        startActivity(new Intent(this, CityChooserActivity.class));
+        onBackPressed();
+        finish();
     }
 
     @Override
