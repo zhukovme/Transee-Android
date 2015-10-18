@@ -1,4 +1,4 @@
-package in.transee.transee.fragment;
+package in.transee.transee.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import in.transee.transee.R;
-import in.transee.transee.activity.TransportActivity;
+import in.transee.transee.ui.activity.TransportActivity;
 
+/**
+ * @author Michael Zhukov
+ */
 public class CityListFragment extends ListFragment {
 
     String[] mCities = new String[] {"Кострома", "Ярославль"};

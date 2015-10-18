@@ -1,4 +1,4 @@
-package in.transee.transee.fragment;
+package in.transee.transee.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import in.transee.transee.R;
 
+/**
+ * @author Michael Zhukov
+ */
 public class HistoryListFragment extends ListFragment {
 
     String[] testStrings = new String[] {"47 маршрутное такси", "ул. Рыкачева", "72 автобус", "┻━┻ ヘ╰( •̀ε•́ ╰)"};
