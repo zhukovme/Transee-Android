@@ -21,7 +21,7 @@ import retrofit.Retrofit;
  */
 public class ApiFactory {
 
-    private static final String BASE_URL = "https://transee.in/";
+    private static final String BASE_URL = "https://transee.in/api/v1/cities";
     private static final int CONNECT_TIMEOUT = 15;
     private static final int WRITE_TIMEOUT = 60;
     private static final int TIMEOUT = 60;
