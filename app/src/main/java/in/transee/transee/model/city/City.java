@@ -1,5 +1,7 @@
 package in.transee.transee.model.city;
 
+import android.content.Context;
+
 import in.transee.transee.model.LatLon;
 
 /**
@@ -8,12 +10,10 @@ import in.transee.transee.model.LatLon;
 public class City {
 
     private String id;
-    private String name;
     private LatLon coordinates;
 
-    public City(String id, String name, LatLon coordinates) {
+    public City(String id, LatLon coordinates) {
         this.id = id;
-        this.name = name;
         this.coordinates = coordinates;
     }
 
@@ -21,8 +21,9 @@ public class City {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getName(Context ctx) {
+        int resId = ctx.getResources().getIdentifier(id, "string", ctx.getPackageName());
+        return ctx.getResources().getString(resId);
     }
 
     public LatLon getCoordinates() {

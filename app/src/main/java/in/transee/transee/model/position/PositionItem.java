@@ -2,6 +2,8 @@ package in.transee.transee.model.position;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * @author Michael Zhukov
  */
@@ -12,9 +14,9 @@ public class PositionItem {
     @SerializedName("name")
     private String name;
     @SerializedName("items")
-    private Vehicle vehicles;
+    private List<Vehicle> vehicles;
 
-    public PositionItem(String id, String name, Vehicle vehicles) {
+    public PositionItem(String id, String name, List<Vehicle> vehicles) {
         this.id = id;
         this.name = name;
         this.vehicles = vehicles;
@@ -28,7 +30,7 @@ public class PositionItem {
         return name;
     }
 
-    public Vehicle getVehicles() {
+    public List<Vehicle> getVehicles() {
         return vehicles;
     }
 }

@@ -10,4 +10,21 @@
     <string name="nav_settings_title">Settings</string>
     <string name="nav_change_city_title">Change city</string>
     <string name="choose_city_title">Choose city</string>
+
+    <string name="astrakhan">Astrakhan</string>
+    <string name="barnaul">Barnaul</string>
+    <string name="veliky_novgorod">Veliky Novgorod</string>
+    <string name="vladivostok">Vladivostok</string>
+    <string name="vladimir">Vladimir</string>
+    <string name="voronezh">Voronezh</string>
+    <string name="kostroma">Kostroma</string>
+    <string name="yaroslavl">Yaroslavl</string>
+    
+    <integer name="cities_loader">0</integer>
+    <integer name="transports_loader">1</integer>
+    <integer name="routes_loader">2</integer>
+    <integer name="stations_loader">3</integer>
+    <integer name="positions_loader">4</integer>
+    <integer name="transports_info_loader">5</integer>
+    <integer name="stations_info_loader">6</integer>
 </resources>

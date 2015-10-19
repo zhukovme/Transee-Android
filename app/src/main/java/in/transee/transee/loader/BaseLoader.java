@@ -38,7 +38,7 @@ public abstract class BaseLoader extends AsyncTaskLoader<Response> {
                 onError();
             }
             return response;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new Response();
         }

@@ -14,9 +14,9 @@ public class Vehicle {
     @SerializedName("angle")
     private int angle;
     @SerializedName("position")
-    private LatLon position;
+    private double[] position;
 
-    public Vehicle(String gosId, int angle, LatLon position) {
+    public Vehicle(String gosId, int angle, double[] position) {
         this.gosId = gosId;
         this.angle = angle;
         this.position = position;
@@ -31,6 +31,6 @@ public class Vehicle {
     }
 
     public LatLon getPosition() {
-        return position;
+        return new LatLon(position[0], position[1]);
     }
 }

@@ -12,9 +12,9 @@ public class Station {
     @SerializedName("id")
     private String id;
     @SerializedName("position")
-    private LatLon position;
+    private double[] position;
 
-    public Station(String id, LatLon position) {
+    public Station(String id, double[] position) {
         this.id = id;
         this.position = position;
     }
@@ -24,6 +24,6 @@ public class Station {
     }
 
     public LatLon getPosition() {
-        return position;
+        return new LatLon(position[0], position[1]);
     }
 }

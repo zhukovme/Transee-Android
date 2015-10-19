@@ -2,6 +2,7 @@ package in.transee.transee.model.route;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import in.transee.transee.model.LatLon;
@@ -14,9 +15,9 @@ public class RouteItem {
     @SerializedName("id")
     private String id;
     @SerializedName("route")
-    private List<LatLon> route;
+    private LinkedList<double[]> route;
 
-    public RouteItem(String id, List<LatLon> route) {
+    public RouteItem(String id, LinkedList<double[]> route) {
         this.id = id;
         this.route = route;
     }
@@ -26,6 +27,10 @@ public class RouteItem {
     }
 
     public List<LatLon> getRoute() {
-        return route;
+        List<LatLon> points = new LinkedList<>();
+        for (double[] point : route) {
+            points.add(new LatLon(point[0], point[1]));
+        }
+        return points;
     }
 }

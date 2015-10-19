@@ -6,9 +6,12 @@ import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
 
+import in.transee.transee.api.service.CitiesService;
 import in.transee.transee.api.service.PositionsService;
 import in.transee.transee.api.service.RoutesService;
+import in.transee.transee.api.service.StationInfoService;
 import in.transee.transee.api.service.StationsService;
+import in.transee.transee.api.service.TransportInfoService;
 import in.transee.transee.api.service.TransportsService;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -49,6 +52,21 @@ public class ApiFactory {
     @NonNull
     public static PositionsService getPositionsService() {
         return getRetrofit().create(PositionsService.class);
+    }
+
+    @NonNull
+    public static TransportInfoService getTransportsInfoService() {
+        return getRetrofit().create(TransportInfoService.class);
+    }
+
+    @NonNull
+    public static StationInfoService getStationsInfoService() {
+        return getRetrofit().create(StationInfoService.class);
+    }
+
+    @NonNull
+    public static CitiesService getCitiesService() {
+        return getRetrofit().create(CitiesService.class);
     }
 
     @NonNull
