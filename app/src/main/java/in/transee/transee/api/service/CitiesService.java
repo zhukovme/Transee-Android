@@ -11,9 +11,9 @@ import retrofit.http.Path;
  */
 public interface CitiesService {
 
-    @GET("/")
+    @GET("/api/v1/cities")
     Call<List<String>> cities();
 
-    @GET("/{city}/coordinates")
+    @GET("/api/v1/cities/{city}/coordinates")
     Call<double[]> coordinates(@Path("city") String city);
 }

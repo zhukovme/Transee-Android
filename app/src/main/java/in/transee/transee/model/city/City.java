@@ -2,12 +2,14 @@ package in.transee.transee.model.city;
 
 import android.content.Context;
 
+import java.io.Serializable;
+
 import in.transee.transee.model.LatLon;
 
 /**
  * @author Michael Zhukov
  */
-public class City {
+public class City implements Serializable {
 
     private String id;
     private LatLon coordinates;

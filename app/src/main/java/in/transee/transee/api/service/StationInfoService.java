@@ -11,6 +11,6 @@ import retrofit.http.Query;
  */
 public interface StationInfoService {
 
-    @GET("/{city}/station_info")
+    @GET("/api/v1/cities/{city}/station_info")
     Call<StationInfo> stationInfo(@Path("city") String city, @Query("id") String id);
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_short_info">Карманный трекер общественного транспорта</string>
+    <string name="nav_history_title">История</string>
+    <string name="nav_settings_title">Настройки</string>
+    <string name="nav_change_city_title">Сменить город</string>
+    <string name="choose_city_title">Выберите город</string>
+
+    <string name="astrakhan">Астрахань</string>
+    <string name="barnaul">Барнаул</string>
+    <string name="veliky_novgorod">Великий Новгород</string>
+    <string name="vladivostok">Владивосток</string>
+    <string name="vladimir">Владимир</string>
+    <string name="voronezh">Воронеж</string>
+    <string name="kostroma">Кострома</string>
+    <string name="yaroslavl">Ярославль</string>
+
+</resources>

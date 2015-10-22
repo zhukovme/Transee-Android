@@ -12,6 +12,6 @@ import retrofit.http.Path;
  */
 public interface RoutesService {
 
-    @GET("/{city}/routes")
+    @GET("/api/v1/cities/{city}/routes")
     Call<List<RouteType>> routeTypes(@Path("city") String city);
 }

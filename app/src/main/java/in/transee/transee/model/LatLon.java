@@ -1,9 +1,11 @@
 package in.transee.transee.model;
 
+import java.io.Serializable;
+
 /**
  * @author Michael Zhukov
  */
-public class LatLon {
+public class LatLon implements Serializable {
 
     private Double latitude;
     private Double longitude;

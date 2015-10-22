@@ -11,6 +11,7 @@ import in.transee.transee.api.response.RequestResult;
 import in.transee.transee.api.response.Response;
 import in.transee.transee.api.service.CitiesService;
 import in.transee.transee.model.LatLon;
+import in.transee.transee.model.city.Cities;
 import in.transee.transee.model.city.City;
 import retrofit.Call;
 
@@ -39,6 +40,6 @@ public class CitiesLoader extends BaseLoader {
         }
         return new Response()
                 .setRequestResult(RequestResult.SUCCESS)
-                .setAnswer(cities);
+                .setAnswer(new Cities(cities));
     }
 }

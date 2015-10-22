@@ -13,7 +13,7 @@ import retrofit.http.Query;
  */
 public interface TransportInfoService {
 
-    @GET("/{city}/transport_info")
+    @GET("/api/v1/cities/{city}/transport_info")
     Call<List<TransportInfo>> transportInfo(@Path("city") String city, @Query("type") String type,
                                             @Query("gos_id") String gosId);
 }
