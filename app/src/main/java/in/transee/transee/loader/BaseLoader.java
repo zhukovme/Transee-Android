@@ -25,6 +25,7 @@ public abstract class BaseLoader extends AsyncTaskLoader<Response> {
     protected void onStartLoading() {
         super.onStartLoading();
         forceLoad();
+        LOGGER.log(Level.SEVERE, "Start loading " + getClass().getSimpleName());
     }
 
     @Override
@@ -45,6 +46,7 @@ public abstract class BaseLoader extends AsyncTaskLoader<Response> {
     }
 
     protected void onSuccess() {
+        LOGGER.log(Level.SEVERE, "SUCCESS");
     }
 
     protected void onError() {

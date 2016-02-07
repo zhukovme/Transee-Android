@@ -16,4 +16,9 @@
     <string name="kostroma">Кострома</string>
     <string name="yaroslavl">Ярославль</string>
 
+    <string name="autobus">Автобус</string>
+    <string name="trolleybus">Троллейбус</string>
+    <string name="tram">Трамвай</string>
+    <string name="minibus_taxi">Маршрутное такси</string>
+
 </resources>

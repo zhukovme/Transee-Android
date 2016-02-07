@@ -12,20 +12,18 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import in.transee.transee.Constants;
 import in.transee.transee.R;
 import in.transee.transee.api.response.Response;
 import in.transee.transee.loader.CitiesLoader;
 import in.transee.transee.model.city.Cities;
 import in.transee.transee.model.city.City;
-import in.transee.transee.ui.activity.TransportActivity;
+import in.transee.transee.ui.activity.MapActivity;
 
 /**
  * @author Michael Zhukov
  */
 public class CityListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Response> {
 
-    private List<String> mCitiesNames;
     private List<City> mCities;
 
     @Override
@@ -49,13 +47,15 @@ public class CityListFragment extends ListFragment implements LoaderManager.Load
     @Override
     public void onLoadFinished(Loader<Response> loader, Response data) {
         Cities cities = data.getTypedAnswer();
-        mCitiesNames = cities.getNames(getContext());
+        List<String> citiesNames = cities.getNames(getContext());
         mCities = cities.getCities();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.city_list_item,
-                R.id.textView, mCitiesNames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.item_city_list,
+                R.id.textView, citiesNames);
         getListView().setDivider(ContextCompat.getDrawable(getActivity(), R.color.transparent));
         setListAdapter(adapter);
+
+        getActivity().getLoaderManager().destroyLoader(loader.getId());
     }
 
     @Override
@@ -64,8 +64,8 @@ public class CityListFragment extends ListFragment implements LoaderManager.Load
     }
 
     private void startTransportActivity(int cityPosition) {
-        Intent intent = new Intent(getActivity(), TransportActivity.class);
-        intent.putExtra(Constants.CURRENT_CITY_EXTRA, mCities.get(cityPosition));
+        Intent intent = new Intent(getActivity(), MapActivity.class);
+        intent.putExtra(MapActivity.CURRENT_CITY_EXTRA, mCities.get(cityPosition));
         startActivity(intent);
     }
 }

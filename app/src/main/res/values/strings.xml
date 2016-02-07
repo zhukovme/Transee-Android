@@ -19,6 +19,11 @@
     <string name="voronezh">Voronezh</string>
     <string name="kostroma">Kostroma</string>
     <string name="yaroslavl">Yaroslavl</string>
+
+    <string name="autobus">Bus</string>
+    <string name="trolleybus">Trolley</string>
+    <string name="tram">Tram</string>
+    <string name="minibus_taxi">Shuttle bus</string>
     
     <integer name="cities_loader">0</integer>
     <integer name="transports_loader">1</integer>

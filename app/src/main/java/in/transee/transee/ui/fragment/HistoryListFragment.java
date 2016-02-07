@@ -27,7 +27,7 @@ public class HistoryListFragment extends ListFragment {
         ViewGroup navHeader = (ViewGroup)inflater.inflate(
                 R.layout.nav_header_main, getListView(), false);
         ViewGroup listHeader = (ViewGroup)inflater.inflate(
-                R.layout.history_list_header, getListView(), false);
+                R.layout.header_history_list, getListView(), false);
 
         getListView().addHeaderView(navHeader, null, false);
         getListView().addHeaderView(listHeader, null, false);

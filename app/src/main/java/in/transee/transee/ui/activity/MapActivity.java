@@ -12,47 +12,80 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 
-import in.transee.transee.Constants;
+import java.util.HashMap;
+import java.util.List;
+
 import in.transee.transee.R;
 import in.transee.transee.model.city.City;
+import in.transee.transee.utils.MapHelper;
 
 /**
  * @author Michael Zhukov
  */
-public class TransportActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    public static final String CURRENT_CITY_EXTRA = "current_city_extra";
+
+    public static final int TRANSPORT_CHOOSER_REQUEST = 1;
+
+    private DrawerLayout mDrawer;
 
     private City mCurrentCity;
-    private DrawerLayout mDrawer;
-    private GoogleMap mMap;
+    private MapHelper mMapHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transport);
+        setContentView(R.layout.activity_map);
 
-        mCurrentCity = (City) getIntent().getSerializableExtra(Constants.CURRENT_CITY_EXTRA);
+        mCurrentCity = (City) getIntent().getSerializableExtra(CURRENT_CITY_EXTRA);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final FloatingActionsMenu fam = (FloatingActionsMenu) findViewById(R.id.fam);
+        FloatingActionButton fabShowSeveral = (FloatingActionButton) findViewById(R.id.fab_show_several);
+
         toolbar.setTitle(mCurrentCity.getName(this));
         setSupportActionBar(toolbar);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawer.setDrawerListener(toggle);
         mDrawer.setDrawerShadow(R.drawable.drawer_dropshadow, GravityCompat.START);
         toggle.syncState();
+
+        fabShowSeveral.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), TransportChooserActivity.class);
+                intent.putExtra(CURRENT_CITY_EXTRA, mCurrentCity);
+                startActivityForResult(intent, TRANSPORT_CHOOSER_REQUEST);
+                fam.collapse();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case TRANSPORT_CHOOSER_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    HashMap<String, List<String>> selectedTransport =
+                            (HashMap<String, List<String>>) data
+                                    .getSerializableExtra(TransportChooserActivity.SELECTED_TRANSPORT_EXTRA);
+
+                }
+        }
     }
 
     public void onNavSettingsClick(View view) {
@@ -87,18 +120,12 @@ public class TransportActivity extends AppCompatActivity implements OnMapReadyCa
             case R.id.action_search:
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng cityCoordinates = new LatLng(
-                mCurrentCity.getCoordinates().getLatitude(),
-                mCurrentCity.getCoordinates().getLongitude()
-        );
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                cityCoordinates, Constants.DEFAULT_MAP_ZOOM));
+        mMapHelper = new MapHelper(googleMap);
+        mMapHelper.setupMapCamera(mCurrentCity);
     }
 }
