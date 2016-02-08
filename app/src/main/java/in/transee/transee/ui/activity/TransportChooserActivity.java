@@ -21,7 +21,7 @@ import java.util.List;
 
 import in.transee.transee.R;
 import in.transee.transee.api.response.Response;
-import in.transee.transee.loader.TransportsLoader;
+import in.transee.transee.loader.TransportLoader;
 import in.transee.transee.model.TransportListItem;
 import in.transee.transee.model.city.City;
 import in.transee.transee.model.transport.TransportItem;
@@ -39,7 +39,7 @@ public class TransportChooserActivity extends AppCompatActivity implements
 
     private ViewPager mViewPager;
     private PagerSlidingTabStrip mTabs;
-    private FloatingActionButton mFabApplyTransports;
+    private FloatingActionButton mFabApplyTransport;
 
     private City mCurrentCity;
     private List<RecyclerView> mRecyclerViews;
@@ -55,15 +55,15 @@ public class TransportChooserActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mTabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        mFabApplyTransports = (FloatingActionButton) findViewById(R.id.fab_apply_transports);
-        mFabApplyTransports.hide();
+        mFabApplyTransport = (FloatingActionButton) findViewById(R.id.fab_apply_transport);
+        mFabApplyTransport.hide();
 
         toolbar.setTitle(mCurrentCity.getName(this));
         setSupportActionBar(toolbar);
 
         getLoaderManager().initLoader(R.integer.transports_loader, Bundle.EMPTY, this);
 
-        mFabApplyTransports.setOnClickListener(new View.OnClickListener() {
+        mFabApplyTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), MapActivity.class);
@@ -86,7 +86,7 @@ public class TransportChooserActivity extends AppCompatActivity implements
         List<RecyclerView> rvList = new ArrayList<>();
         for (TransportType type : mTransportTypes) {
             RecyclerView rv = new RecyclerView(this);
-            rv.setAdapter(new TransportRvListAdapter(setupTransportList(type), mFabApplyTransports));
+            rv.setAdapter(new TransportRvListAdapter(setupTransportList(type), mFabApplyTransport));
             rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             rv.setTag(type.getType());
             rvList.add(rv);
@@ -120,7 +120,7 @@ public class TransportChooserActivity extends AppCompatActivity implements
 
     @Override
     public Loader<Response> onCreateLoader(int id, Bundle args) {
-        return new TransportsLoader(this, mCurrentCity.getId());
+        return new TransportLoader(this, mCurrentCity.getId());
     }
 
     @Override

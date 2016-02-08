@@ -22,15 +22,15 @@ import in.transee.transee.model.TransportListItem;
 public class TransportRvListAdapter extends RecyclerView.Adapter<TransportRvListAdapter.ItemHolder> {
 
     private List<TransportListItem> mTransportItems;
-    private FloatingActionButton mFabApplyTransports;
+    private FloatingActionButton mFabApplyTransport;
     private MultiSelector mMultiSelector;
 
     public TransportRvListAdapter(List<TransportListItem> transportItems,
-                                  FloatingActionButton fabApplyTransports) {
+                                  FloatingActionButton fabApplyTransport) {
         mTransportItems = transportItems;
         mMultiSelector = new MultiSelector();
         mMultiSelector.setSelectable(true);
-        mFabApplyTransports = fabApplyTransports;
+        mFabApplyTransport = fabApplyTransport;
     }
 
     @Override
@@ -77,7 +77,7 @@ public class TransportRvListAdapter extends RecyclerView.Adapter<TransportRvList
             TransportListItem item = mTransportItems.get(getAdapterPosition());
             item.setIsChecked(!item.isChecked());
             mMultiSelector.tapSelection(this);
-            mFabApplyTransports.show();
+            mFabApplyTransport.show();
         }
     }
 }

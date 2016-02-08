@@ -16,11 +16,11 @@ import retrofit.Call;
 /**
  * @author Michael Zhukov
  */
-public class TransportsLoader extends BaseLoader {
+public class TransportLoader extends BaseLoader {
 
     private final String mCity;
 
-    public TransportsLoader(Context context, String city) {
+    public TransportLoader(Context context, String city) {
         super(context);
         mCity = city;
     }

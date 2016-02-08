@@ -14,6 +14,6 @@
         android:textSize="15sp"
         android:textColor="@android:color/black"
         android:drawablePadding="@dimen/activity_horizontal_margin"
-        android:drawableLeft="@drawable/ic_crosshairs_gps_grey600_24dp"/>
+        android:drawableLeft="@drawable/ic_map_marker_grey600_24dp"/>
 
 </LinearLayout>
