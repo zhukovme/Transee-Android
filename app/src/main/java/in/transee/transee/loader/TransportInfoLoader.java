@@ -30,7 +30,7 @@ public class TransportInfoLoader extends BaseLoader {
 
     @Override
     protected Response apiCall() throws IOException {
-        TransportInfoService service = ApiFactory.getTransportsInfoService();
+        TransportInfoService service = ApiFactory.getTransportInfoService();
         Call<List<TransportInfo>> call = service.transportInfo(mCity, mType, mGosId);
         List<TransportInfo> transportInfo = call.execute().body();
         return new Response()

@@ -12,7 +12,7 @@ import in.transee.transee.api.service.RoutesService;
 import in.transee.transee.api.service.StationInfoService;
 import in.transee.transee.api.service.StationsService;
 import in.transee.transee.api.service.TransportInfoService;
-import in.transee.transee.api.service.TransportsService;
+import in.transee.transee.api.service.TransportService;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -40,8 +40,8 @@ public class ApiFactory {
     }
 
     @NonNull
-    public static TransportsService getTransportsService() {
-        return getRetrofit().create(TransportsService.class);
+    public static TransportService getTransportService() {
+        return getRetrofit().create(TransportService.class);
     }
 
     @NonNull
@@ -55,7 +55,7 @@ public class ApiFactory {
     }
 
     @NonNull
-    public static TransportInfoService getTransportsInfoService() {
+    public static TransportInfoService getTransportInfoService() {
         return getRetrofit().create(TransportInfoService.class);
     }
 

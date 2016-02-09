@@ -8,8 +8,8 @@ import java.util.List;
 import in.transee.transee.api.ApiFactory;
 import in.transee.transee.api.response.RequestResult;
 import in.transee.transee.api.response.Response;
-import in.transee.transee.api.response.TransportsResponse;
-import in.transee.transee.api.service.TransportsService;
+import in.transee.transee.api.response.TransportResponse;
+import in.transee.transee.api.service.TransportService;
 import in.transee.transee.model.transport.TransportType;
 import retrofit.Call;
 
@@ -27,10 +27,10 @@ public class TransportLoader extends BaseLoader {
 
     @Override
     protected Response apiCall() throws IOException {
-        TransportsService service = ApiFactory.getTransportsService();
+        TransportService service = ApiFactory.getTransportService();
         Call<List<TransportType>> call = service.transportTypes(mCity);
         List<TransportType> transportTypes = call.execute().body();
-        return new TransportsResponse()
+        return new TransportResponse()
                 .setRequestResult(RequestResult.SUCCESS)
                 .setAnswer(transportTypes);
     }

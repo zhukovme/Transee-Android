@@ -12,13 +12,13 @@ public class StationInfo {
     @SerializedName("name")
     private String name;
     @SerializedName("transports")
-    private List<StationInfoTransport> transports;
+    private List<StationInfoTransport> transportList;
     @SerializedName("forecasts")
     private List<StationInfoForecast> forecasts;
 
-    public StationInfo(String name, List<StationInfoTransport> transports, List<StationInfoForecast> forecasts) {
+    public StationInfo(String name, List<StationInfoTransport> transportList, List<StationInfoForecast> forecasts) {
         this.name = name;
-        this.transports = transports;
+        this.transportList = transportList;
         this.forecasts = forecasts;
     }
 
@@ -26,8 +26,8 @@ public class StationInfo {
         return name;
     }
 
-    public List<StationInfoTransport> getTransports() {
-        return transports;
+    public List<StationInfoTransport> getTransportList() {
+        return transportList;
     }
 
     public List<StationInfoForecast> getForecasts() {

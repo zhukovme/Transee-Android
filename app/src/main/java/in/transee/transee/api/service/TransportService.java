@@ -10,7 +10,7 @@ import retrofit.http.Path;
 /**
  * @author Michael Zhukov
  */
-public interface TransportsService {
+public interface TransportService {
 
     @GET("/api/v1/cities/{city}/")
     Call<List<TransportType>> transportTypes(@Path("city") String city);

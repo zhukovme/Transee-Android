@@ -61,7 +61,7 @@ public class TransportChooserActivity extends AppCompatActivity implements
         toolbar.setTitle(mCurrentCity.getName(this));
         setSupportActionBar(toolbar);
 
-        getLoaderManager().initLoader(R.integer.transports_loader, Bundle.EMPTY, this);
+        getLoaderManager().initLoader(R.integer.transport_loader, Bundle.EMPTY, this);
 
         mFabApplyTransport.setOnClickListener(new View.OnClickListener() {
             @Override

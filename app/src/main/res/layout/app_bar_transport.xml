@@ -71,7 +71,7 @@
             app:fab_colorNormal="@color/red500"
             app:fab_colorPressed="@color/red700"
             app:fab_icon="@drawable/ic_map_marker_multiple_white_24dp"
-            app:fab_title="Show several transports"/>
+            app:fab_title="Show several transport"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

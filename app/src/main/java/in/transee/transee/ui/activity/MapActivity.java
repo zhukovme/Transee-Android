@@ -83,7 +83,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     HashMap<String, List<String>> selectedTransport =
                             (HashMap<String, List<String>>) data
                                     .getSerializableExtra(TransportChooserActivity.SELECTED_TRANSPORT_EXTRA);
-
+                    mMapHelper.showSeveralTransport(selectedTransport);
                 }
         }
     }
@@ -125,7 +125,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMapHelper = new MapHelper(googleMap);
-        mMapHelper.setupMapCamera(mCurrentCity);
+        mMapHelper = new MapHelper(this, googleMap, mCurrentCity);
+        mMapHelper.setupMapCamera();
     }
 }

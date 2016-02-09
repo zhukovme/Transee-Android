@@ -9,7 +9,7 @@ import in.transee.transee.model.transport.TransportType;
 /**
  * @author Michael Zhukov
  */
-public class TransportsResponse extends Response {
+public class TransportResponse extends Response {
 
     @Override
     public void save(Context context) {
