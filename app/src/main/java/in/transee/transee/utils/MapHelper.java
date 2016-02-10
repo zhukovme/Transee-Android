@@ -22,6 +22,7 @@ import in.transee.transee.model.city.City;
 import in.transee.transee.model.position.PositionType;
 import in.transee.transee.model.route.RouteItem;
 import in.transee.transee.model.route.RouteType;
+import in.transee.transee.model.route.Routes;
 
 /**
  * @author Michael Zhukov
@@ -59,11 +60,11 @@ public class MapHelper implements LoaderManager.LoaderCallbacks<Response> {
         mActivity.getLoaderManager().initLoader(R.integer.positions_loader, Bundle.EMPTY, this);
     }
 
-    private void drawRoutes(List<RouteType> routeTypes) {
+    private void drawRoutes(Routes routes) {
         for (String transportType : mTransportIds.keySet()) {
             for (String transportId : mTransportIds.get(transportType)) {
                 PolylineOptions polylineOptions = new PolylineOptions();
-                for (RouteType routeType : routeTypes) {
+                for (RouteType routeType : routes.getRoutes()) {
                     if (transportType.equals(routeType.getType())) {
                         for (RouteItem routeItem : routeType.getItems()) {
                             if (transportId.equals(routeItem.getId())) {
@@ -107,8 +108,8 @@ public class MapHelper implements LoaderManager.LoaderCallbacks<Response> {
         int id = loader.getId();
         switch (id) {
             case R.integer.routes_loader:
-                List<RouteType> routeTypes = data.getTypedAnswer();
-                drawRoutes(routeTypes);
+                Routes routes = data.getTypedAnswer();
+                drawRoutes(routes);
                 break;
             case R.integer.positions_loader:
                 List<PositionType> positionTypes = data.getTypedAnswer();

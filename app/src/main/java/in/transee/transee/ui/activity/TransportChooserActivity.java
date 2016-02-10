@@ -1,6 +1,7 @@
 package in.transee.transee.ui.activity;
 
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class TransportChooserActivity extends AppCompatActivity implements
     private ViewPager mViewPager;
     private PagerSlidingTabStrip mTabs;
     private FloatingActionButton mFabApplyTransport;
+    private ProgressDialog mProgressDialog;
 
     private City mCurrentCity;
     private List<RecyclerView> mRecyclerViews;
@@ -57,6 +59,10 @@ public class TransportChooserActivity extends AppCompatActivity implements
         mTabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         mFabApplyTransport = (FloatingActionButton) findViewById(R.id.fab_apply_transport);
         mFabApplyTransport.hide();
+
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage(getResources().getString(R.string.loading_message));
+        mProgressDialog.setCancelable(false);
 
         toolbar.setTitle(mCurrentCity.getName(this));
         setSupportActionBar(toolbar);
@@ -100,7 +106,6 @@ public class TransportChooserActivity extends AppCompatActivity implements
             TransportListItem transportListItem = new TransportListItem();
             transportListItem.setName(item.getName());
             transportListItem.setId(item.getId());
-
             transportList.add(transportListItem);
         }
         return transportList;
@@ -120,11 +125,14 @@ public class TransportChooserActivity extends AppCompatActivity implements
 
     @Override
     public Loader<Response> onCreateLoader(int id, Bundle args) {
+        mProgressDialog.show();
         return new TransportLoader(this, mCurrentCity.getId());
     }
 
     @Override
     public void onLoadFinished(Loader<Response> loader, Response data) {
+        mProgressDialog.dismiss();
+
         mTransportTypes = data.getTypedAnswer();
         mRecyclerViews = setupRecyclerViews();
         mViewPager.setAdapter(new ListViewPagerAdapter(mRecyclerViews, setupTabTitles()));

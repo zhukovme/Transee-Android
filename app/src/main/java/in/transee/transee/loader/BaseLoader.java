@@ -46,11 +46,11 @@ public abstract class BaseLoader extends AsyncTaskLoader<Response> {
     }
 
     protected void onSuccess() {
-        LOGGER.log(Level.SEVERE, "SUCCESS");
+        LOGGER.log(Level.SEVERE, "SUCCESS loading " + getClass().getSimpleName());
     }
 
     protected void onError() {
-        LOGGER.log(Level.SEVERE, "ERROR");
+        LOGGER.log(Level.SEVERE, "ERROR loading " + getClass().getSimpleName());
     }
 
     protected abstract Response apiCall() throws IOException;

@@ -51,7 +51,7 @@
             app:fab_colorNormal="@color/green500"
             app:fab_colorPressed="@color/green700"
             app:fab_icon="@drawable/ic_calendar_clock_white_24dp"
-            app:fab_title="Schedule"/>
+            app:fab_title="@string/fab_schedule"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_next_to_me"
@@ -61,7 +61,7 @@
             app:fab_colorNormal="@color/brown500"
             app:fab_colorPressed="@color/brown700"
             app:fab_icon="@drawable/ic_map_marker_radius_white_24dp"
-            app:fab_title="Next to me"/>
+            app:fab_title="@string/fab_next_to_me"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_show_several"
@@ -71,7 +71,7 @@
             app:fab_colorNormal="@color/red500"
             app:fab_colorPressed="@color/red700"
             app:fab_icon="@drawable/ic_map_marker_multiple_white_24dp"
-            app:fab_title="Show several transport"/>
+            app:fab_title="@string/fab_show_several"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

@@ -11,6 +11,7 @@ import in.transee.transee.api.response.Response;
 import in.transee.transee.api.response.RoutesResponse;
 import in.transee.transee.api.service.RoutesService;
 import in.transee.transee.model.route.RouteType;
+import in.transee.transee.model.route.Routes;
 import retrofit.Call;
 
 /**
@@ -32,6 +33,6 @@ public class RoutesLoader extends BaseLoader {
         List<RouteType> routeTypes = call.execute().body();
         return new RoutesResponse()
                 .setRequestResult(RequestResult.SUCCESS)
-                .setAnswer(routeTypes);
+                .setAnswer(new Routes(routeTypes));
     }
 }
