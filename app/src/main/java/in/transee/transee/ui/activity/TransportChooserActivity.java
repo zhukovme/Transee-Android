@@ -1,9 +1,7 @@
 package in.transee.transee.ui.activity;
 
-import android.app.LoaderManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.Loader;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -21,20 +19,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import in.transee.transee.R;
-import in.transee.transee.api.response.Response;
-import in.transee.transee.loader.TransportLoader;
 import in.transee.transee.model.TransportListItem;
 import in.transee.transee.model.city.City;
 import in.transee.transee.model.transport.TransportItem;
 import in.transee.transee.model.transport.TransportType;
-import in.transee.transee.ui.adapter.ListViewPagerAdapter;
-import in.transee.transee.ui.adapter.TransportRvListAdapter;
+import in.transee.transee.ui.adapter.TransportChooserRvAdapter;
 
 /**
  * @author Michael Zhukov
  */
-public class TransportChooserActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Response> {
+public class TransportChooserActivity extends AppCompatActivity {
 
     public static final String SELECTED_TRANSPORT_EXTRA = "selected_transport_extra";
 
@@ -67,15 +61,13 @@ public class TransportChooserActivity extends AppCompatActivity implements
         toolbar.setTitle(mCurrentCity.getName(this));
         setSupportActionBar(toolbar);
 
-        getLoaderManager().initLoader(R.integer.transport_loader, Bundle.EMPTY, this);
-
         mFabApplyTransport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), MapActivity.class);
                 HashMap<String, List<String>> selectedItems = new HashMap<>();
                 for (RecyclerView rv : mRecyclerViews) {
-                    TransportRvListAdapter adapter = (TransportRvListAdapter) rv.getAdapter();
+                    TransportChooserRvAdapter adapter = (TransportChooserRvAdapter) rv.getAdapter();
                     selectedItems.put((String) rv.getTag(), adapter.getSelectedItems());
                 }
                 intent.putExtra(SELECTED_TRANSPORT_EXTRA, selectedItems);
@@ -92,7 +84,7 @@ public class TransportChooserActivity extends AppCompatActivity implements
         List<RecyclerView> rvList = new ArrayList<>();
         for (TransportType type : mTransportTypes) {
             RecyclerView rv = new RecyclerView(this);
-            rv.setAdapter(new TransportRvListAdapter(setupTransportList(type), mFabApplyTransport));
+            rv.setAdapter(new TransportChooserRvAdapter(setupTransportList(type), mFabApplyTransport));
             rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             rv.setTag(type.getType());
             rvList.add(rv);
@@ -121,27 +113,5 @@ public class TransportChooserActivity extends AppCompatActivity implements
                     getResources().getIdentifier(type.getType(), "string", getPackageName())));
         }
         return tabTitles;
-    }
-
-    @Override
-    public Loader<Response> onCreateLoader(int id, Bundle args) {
-        mProgressDialog.show();
-        return new TransportLoader(this, mCurrentCity.getId());
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Response> loader, Response data) {
-        mProgressDialog.dismiss();
-
-        mTransportTypes = data.getTypedAnswer();
-        mRecyclerViews = setupRecyclerViews();
-        mViewPager.setAdapter(new ListViewPagerAdapter(mRecyclerViews, setupTabTitles()));
-        mTabs.setViewPager(mViewPager);
-
-        getLoaderManager().destroyLoader(loader.getId());
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Response> loader) {
     }
 }

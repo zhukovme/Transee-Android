@@ -12,11 +12,13 @@ import in.transee.transee.model.LatLon;
 public class City implements Serializable {
 
     private String id;
-    private LatLon coordinates;
+    private double latitude;
+    private double longitude;
 
-    public City(String id, LatLon coordinates) {
+    public City(String id, double[] coordinates) {
         this.id = id;
-        this.coordinates = coordinates;
+        this.latitude = coordinates[0];
+        this.longitude = coordinates[1];
     }
 
     public String getId() {
@@ -29,6 +31,6 @@ public class City implements Serializable {
     }
 
     public LatLon getCoordinates() {
-        return coordinates;
+        return new LatLon(latitude, longitude);
     }
 }

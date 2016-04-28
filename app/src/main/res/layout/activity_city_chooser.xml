@@ -23,7 +23,7 @@
 
         <fragment
             android:id="@+id/lv_cities"
-            android:name="in.transee.transee.ui.fragment.CityListFragment"
+            android:name="in.transee.transee.ui.fragment.CityChooserFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

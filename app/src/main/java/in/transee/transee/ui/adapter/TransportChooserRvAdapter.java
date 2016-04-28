@@ -19,14 +19,14 @@ import in.transee.transee.model.TransportListItem;
 /**
  * @author Michael Zhukov
  */
-public class TransportRvListAdapter extends RecyclerView.Adapter<TransportRvListAdapter.ItemHolder> {
+public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportChooserRvAdapter.ItemHolder> {
 
     private List<TransportListItem> mTransportItems;
     private FloatingActionButton mFabApplyTransport;
     private MultiSelector mMultiSelector;
 
-    public TransportRvListAdapter(List<TransportListItem> transportItems,
-                                  FloatingActionButton fabApplyTransport) {
+    public TransportChooserRvAdapter(List<TransportListItem> transportItems,
+                                     FloatingActionButton fabApplyTransport) {
         mTransportItems = transportItems;
         mMultiSelector = new MultiSelector();
         mMultiSelector.setSelectable(true);

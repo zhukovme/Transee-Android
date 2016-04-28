@@ -10,12 +10,12 @@ import java.util.List;
 /**
  * @author Michael Zhukov
  */
-public class ListViewPagerAdapter extends PagerAdapter {
+public class RvPagerAdapter extends PagerAdapter {
 
     private List<RecyclerView> mPages;
     private List<String> mTabTitles;
 
-    public ListViewPagerAdapter(List<RecyclerView> pages, List<String> tabTitles) {
+    public RvPagerAdapter(List<RecyclerView> pages, List<String> tabTitles) {
         mPages = pages;
         mTabTitles = tabTitles;
     }
