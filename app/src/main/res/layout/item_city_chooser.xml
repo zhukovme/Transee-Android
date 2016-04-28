@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_chevron_right_white_24dp"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/activity_horizontal_margin"/>
 
 </RelativeLayout>

@@ -12,29 +12,29 @@ import java.util.List;
  */
 public class RvPagerAdapter extends PagerAdapter {
 
-    private List<RecyclerView> mPages;
-    private List<String> mTabTitles;
+    private List<RecyclerView> pages;
+    private List<String> tabTitles;
 
     public RvPagerAdapter(List<RecyclerView> pages, List<String> tabTitles) {
-        mPages = pages;
-        mTabTitles = tabTitles;
+        this.pages = pages;
+        this.tabTitles = tabTitles;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View page = mPages.get(position);
+        View page = pages.get(position);
         container.addView(page);
         return page;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTabTitles.get(position);
+        return tabTitles.get(position);
     }
 
     @Override
     public int getCount() {
-        return mPages.size();
+        return pages.size();
     }
 
     @Override

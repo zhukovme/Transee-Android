@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:onClick="onNavSettingsClick">
+        android:onClick="onSettingsClick">
 
         <TextView
             android:layout_width="match_parent"
@@ -20,7 +20,8 @@
             android:gravity="center_vertical"
             android:text="@string/nav_settings_title"
             android:textColor="@android:color/black"
-            android:drawableLeft="@drawable/ic_settings_grey600_24dp"/>
+            android:drawableLeft="@drawable/ic_settings_grey600_24dp"
+            android:drawableStart="@drawable/ic_settings_grey600_24dp"/>
 
     </LinearLayout>
 
@@ -39,7 +40,8 @@
             android:gravity="center_vertical"
             android:text="@string/nav_change_city_title"
             android:textColor="@android:color/black"
-            android:drawableLeft="@drawable/ic_reply_grey600_24dp"/>
+            android:drawableLeft="@drawable/ic_reply_grey600_24dp"
+            android:drawableStart="@drawable/ic_reply_grey600_24dp"/>
 
     </LinearLayout>
 

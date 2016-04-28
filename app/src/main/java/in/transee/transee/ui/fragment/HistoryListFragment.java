@@ -1,6 +1,7 @@
 package in.transee.transee.ui.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import in.transee.transee.R;
 
@@ -41,8 +41,7 @@ public class HistoryListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        position -= l.getHeaderViewsCount();
-        Toast.makeText(getActivity(), "Position = " + position + " id = " + id, Toast.LENGTH_SHORT).show();
+        Snackbar.make(v, "Position = " + position + " id = " + id, Snackbar.LENGTH_LONG).show();
         getActivity().onBackPressed();
     }
 }

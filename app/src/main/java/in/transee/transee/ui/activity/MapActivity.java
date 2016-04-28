@@ -2,6 +2,7 @@ package in.transee.transee.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,9 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,45 +33,36 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public static final int TRANSPORT_CHOOSER_REQUEST = 1;
 
-    private DrawerLayout mDrawer;
+    private DrawerLayout drawer;
+    private FloatingActionsMenu fam;
 
-    private City mCurrentCity;
-    private MapHelper mMapHelper;
+    private City currentCity;
+    private MapHelper mapHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        mCurrentCity = (City) getIntent().getSerializableExtra(CURRENT_CITY_EXTRA);
+        currentCity = (City) getIntent().getSerializableExtra(CURRENT_CITY_EXTRA);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        final FloatingActionsMenu fam = (FloatingActionsMenu) findViewById(R.id.fam);
-        FloatingActionButton fabShowSeveral = (FloatingActionButton) findViewById(R.id.fab_show_several);
-
-        toolbar.setTitle(mCurrentCity.getName(this));
+        toolbar.setTitle(currentCity.getName(this));
         setSupportActionBar(toolbar);
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawer.setDrawerListener(toggle);
-        mDrawer.setDrawerShadow(R.drawable.drawer_dropshadow, GravityCompat.START);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        drawer.setDrawerShadow(R.drawable.drawer_dropshadow, GravityCompat.START);
         toggle.syncState();
 
-        fabShowSeveral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), TransportChooserActivity.class);
-                intent.putExtra(CURRENT_CITY_EXTRA, mCurrentCity);
-                startActivityForResult(intent, TRANSPORT_CHOOSER_REQUEST);
-                fam.collapse();
-            }
-        });
+
+        fam = (FloatingActionsMenu) findViewById(R.id.fam);
     }
 
     @Override
@@ -81,15 +71,32 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case TRANSPORT_CHOOSER_REQUEST:
                 if (resultCode == RESULT_OK) {
                     HashMap<String, List<String>> selectedTransport =
-                            (HashMap<String, List<String>>) data
-                                    .getSerializableExtra(TransportChooserActivity.SELECTED_TRANSPORT_EXTRA);
-                    mMapHelper.showSeveralTransport(selectedTransport);
+                            (HashMap<String, List<String>>) data.getSerializableExtra(
+                                    TransportChooserActivity.SELECTED_TRANSPORT_EXTRA);
+                    mapHelper.showSeveralTransport(selectedTransport);
                 }
         }
     }
 
-    public void onNavSettingsClick(View view) {
-        Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+    public void onFabScheduleClick(View view) {
+        Snackbar.make(view, "Schedule", Snackbar.LENGTH_LONG).show();
+        fam.collapse();
+    }
+
+    public void onFabNextToMeClick(View view) {
+        Snackbar.make(view, "Next To Me", Snackbar.LENGTH_LONG).show();
+        fam.collapse();
+    }
+
+    public void onFabShowSeveralClick(View view) {
+        Intent intent = new Intent(view.getContext(), TransportChooserActivity.class);
+        intent.putExtra(CURRENT_CITY_EXTRA, currentCity);
+        startActivityForResult(intent, TRANSPORT_CHOOSER_REQUEST);
+        fam.collapse();
+    }
+
+    public void onSettingsClick(View view) {
+        Snackbar.make(view, "Settings", Snackbar.LENGTH_LONG).show();
         onBackPressed();
     }
 
@@ -101,8 +108,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -125,7 +132,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMapHelper = new MapHelper(this, googleMap, mCurrentCity);
-        mMapHelper.setupMapCamera();
+        mapHelper = new MapHelper(this, googleMap, currentCity);
+        mapHelper.setupMapCamera();
     }
 }

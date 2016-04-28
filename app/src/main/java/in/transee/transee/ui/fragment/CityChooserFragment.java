@@ -2,19 +2,18 @@ package in.transee.transee.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.support.v4.content.ContextCompat;
+import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import in.transee.transee.R;
 import in.transee.transee.api.Repository;
 import in.transee.transee.model.city.City;
 import in.transee.transee.ui.activity.MapActivity;
-import rx.functions.Action1;
-import rx.functions.Func0;
 
 /**
  * @author Michael Zhukov
@@ -24,41 +23,39 @@ public class CityChooserFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getListView().setDivider(ContextCompat.getDrawable(getActivity(), R.color.transparent));
+        getCitiesAndHandle();
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        startTransportActivity(position);
+    private void startTransportActivity(City city) {
+        Intent intent = new Intent(getActivity(), MapActivity.class);
+        intent.putExtra(MapActivity.CURRENT_CITY_EXTRA, city);
+        startActivity(intent);
         getActivity().finish();
     }
 
-    private void startTransportActivity(int cityPosition) {
-        Intent intent = new Intent(getActivity(), MapActivity.class);
-//        intent.putExtra(MapActivity.CURRENT_CITY_EXTRA, mCities.get(cityPosition));
-        startActivity(intent);
-    }
-
-    private void fetchCitiesAndHandle() {
-        Repository.INSTANCE.getCities()
-                .doOnNext(new Action1<List<City>>() {
-                    @Override
-                    public void call(final List<City> cities) {
-                        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Intent intent = new Intent(getActivity(), MapActivity.class);
-                                intent.putExtra(MapActivity.CURRENT_CITY_EXTRA, cities.get(position));
-                                startActivity(intent);
-                                getActivity().finish();
-                            }
-                        });
-                    }
+    private void showErrorSnackbar() {
+        Snackbar.make(getListView(), getString(R.string.not_available_msg), Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry_snack_action, v -> {
+                    getCitiesAndHandle();
                 })
-                .subscribe();
+                .show();
     }
 
-    private void onItemClick(City city) {
-
+    private void getCitiesAndHandle() {
+        Repository.INSTANCE.getCities()
+                .doOnNext(cities ->
+                        getListView().setOnItemClickListener((parent, view, position, id) ->
+                                startTransportActivity(cities.get(position))))
+                .map(cities -> {
+                    List<String> citiesStrings = new ArrayList<>(cities.size());
+                    for (City city : cities) {
+                        citiesStrings.add(city.getName(getContext()));
+                    }
+                    return citiesStrings;})
+                .subscribe(cities ->
+                        setListAdapter(new ArrayAdapter(getContext(), R.layout.item_city_chooser,
+                                R.id.tv_city, cities)),
+                        throwable -> showErrorSnackbar());
     }
 }

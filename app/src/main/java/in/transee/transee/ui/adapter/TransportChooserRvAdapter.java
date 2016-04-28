@@ -21,16 +21,16 @@ import in.transee.transee.model.TransportListItem;
  */
 public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportChooserRvAdapter.ItemHolder> {
 
-    private List<TransportListItem> mTransportItems;
-    private FloatingActionButton mFabApplyTransport;
-    private MultiSelector mMultiSelector;
+    private List<TransportListItem> transportItems;
+    private FloatingActionButton fabApplyTransport;
+    private MultiSelector multiSelector;
 
     public TransportChooserRvAdapter(List<TransportListItem> transportItems,
                                      FloatingActionButton fabApplyTransport) {
-        mTransportItems = transportItems;
-        mMultiSelector = new MultiSelector();
-        mMultiSelector.setSelectable(true);
-        mFabApplyTransport = fabApplyTransport;
+        this.transportItems = transportItems;
+        multiSelector = new MultiSelector();
+        multiSelector.setSelectable(true);
+        this.fabApplyTransport = fabApplyTransport;
     }
 
     @Override
@@ -38,23 +38,23 @@ public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportCho
         View v = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.item_transport_list, parent, false);
-        return new ItemHolder(v, mMultiSelector);
+        return new ItemHolder(v, multiSelector);
     }
 
     @Override
     public void onBindViewHolder(ItemHolder holder, int position) {
-        TransportListItem transportItem = mTransportItems.get(position);
+        TransportListItem transportItem = transportItems.get(position);
         holder.transportName.setText(transportItem.getName());
     }
 
     @Override
     public int getItemCount() {
-        return mTransportItems.size();
+        return transportItems.size();
     }
 
     public List<String> getSelectedItems() {
         List<String> selectedItems = new ArrayList<>();
-        for (TransportListItem item : mTransportItems) {
+        for (TransportListItem item : transportItems) {
             if (item.isChecked()) {
                 selectedItems.add(item.getId());
             }
@@ -74,10 +74,10 @@ public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportCho
 
         @Override
         public void onClick(View v) {
-            TransportListItem item = mTransportItems.get(getAdapterPosition());
+            TransportListItem item = transportItems.get(getAdapterPosition());
             item.setIsChecked(!item.isChecked());
-            mMultiSelector.tapSelection(this);
-            mFabApplyTransport.show();
+            multiSelector.tapSelection(this);
+            fabApplyTransport.show();
         }
     }
 }

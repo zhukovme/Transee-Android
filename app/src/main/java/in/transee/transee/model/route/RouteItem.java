@@ -1,11 +1,10 @@
 package in.transee.transee.model.route;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import in.transee.transee.model.LatLon;
 
 /**
  * @author Michael Zhukov
@@ -26,10 +25,10 @@ public class RouteItem {
         return id;
     }
 
-    public List<LatLon> getRoute() {
-        List<LatLon> points = new LinkedList<>();
+    public List<LatLng> getRoute() {
+        List<LatLng> points = new LinkedList<>();
         for (double[] point : route) {
-            points.add(new LatLon(point[0], point[1]));
+            points.add(new LatLng(point[0], point[1]));
         }
         return points;
     }

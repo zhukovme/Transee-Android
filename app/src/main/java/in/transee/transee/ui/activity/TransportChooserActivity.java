@@ -1,6 +1,5 @@
 package in.transee.transee.ui.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -32,59 +31,51 @@ public class TransportChooserActivity extends AppCompatActivity {
 
     public static final String SELECTED_TRANSPORT_EXTRA = "selected_transport_extra";
 
-    private ViewPager mViewPager;
-    private PagerSlidingTabStrip mTabs;
-    private FloatingActionButton mFabApplyTransport;
-    private ProgressDialog mProgressDialog;
+    private ViewPager viewPager;
+    private PagerSlidingTabStrip tabs;
+    private FloatingActionButton fabApplyTransport;
 
-    private City mCurrentCity;
-    private List<RecyclerView> mRecyclerViews;
-    private List<TransportType> mTransportTypes;
+    private City currentCity;
+    private List<RecyclerView> recyclerViews;
+    private List<TransportType> transportTypes;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transport_chooser);
 
-        mCurrentCity = (City) getIntent().getSerializableExtra(MapActivity.CURRENT_CITY_EXTRA);
+        currentCity = (City) getIntent().getSerializableExtra(MapActivity.CURRENT_CITY_EXTRA);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mTabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        mFabApplyTransport = (FloatingActionButton) findViewById(R.id.fab_apply_transport);
-        mFabApplyTransport.hide();
-
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage(getResources().getString(R.string.loading_message));
-        mProgressDialog.setCancelable(false);
-
-        toolbar.setTitle(mCurrentCity.getName(this));
+        toolbar.setTitle(currentCity.getName(this));
         setSupportActionBar(toolbar);
 
-        mFabApplyTransport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MapActivity.class);
-                HashMap<String, List<String>> selectedItems = new HashMap<>();
-                for (RecyclerView rv : mRecyclerViews) {
-                    TransportChooserRvAdapter adapter = (TransportChooserRvAdapter) rv.getAdapter();
-                    selectedItems.put((String) rv.getTag(), adapter.getSelectedItems());
-                }
-                intent.putExtra(SELECTED_TRANSPORT_EXTRA, selectedItems);
-                setResult(RESULT_OK, intent);
-                onBackPressed();
-            }
-        });
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        fabApplyTransport = (FloatingActionButton) findViewById(R.id.fab_apply_transport);
+        fabApplyTransport.hide();
+    }
+
+    public void onFabApplyTransportClick(View view) {
+        Intent intent = new Intent(this, MapActivity.class);
+        HashMap<String, List<String>> selectedItems = new HashMap<>();
+        for (RecyclerView rv : recyclerViews) {
+            TransportChooserRvAdapter adapter = (TransportChooserRvAdapter) rv.getAdapter();
+            selectedItems.put((String) rv.getTag(), adapter.getSelectedItems());
+        }
+        intent.putExtra(SELECTED_TRANSPORT_EXTRA, selectedItems);
+        setResult(RESULT_OK, intent);
+        onBackPressed();
     }
 
     private List<RecyclerView> setupRecyclerViews() {
-        if (mTransportTypes == null) {
+        if (transportTypes == null) {
             return Collections.emptyList();
         }
         List<RecyclerView> rvList = new ArrayList<>();
-        for (TransportType type : mTransportTypes) {
+        for (TransportType type : transportTypes) {
             RecyclerView rv = new RecyclerView(this);
-            rv.setAdapter(new TransportChooserRvAdapter(setupTransportList(type), mFabApplyTransport));
+            rv.setAdapter(new TransportChooserRvAdapter(setupTransportList(type), fabApplyTransport));
             rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             rv.setTag(type.getType());
             rvList.add(rv);
@@ -104,11 +95,11 @@ public class TransportChooserActivity extends AppCompatActivity {
     }
 
     private List<String> setupTabTitles() {
-        if (mTransportTypes == null) {
+        if (transportTypes == null) {
             return Collections.emptyList();
         }
         List<String> tabTitles = new ArrayList<>();
-        for (TransportType type : mTransportTypes) {
+        for (TransportType type : transportTypes) {
             tabTitles.add(getString(
                     getResources().getIdentifier(type.getType(), "string", getPackageName())));
         }

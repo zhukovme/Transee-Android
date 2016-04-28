@@ -1,8 +1,7 @@
 package in.transee.transee.model.station;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
-
-import in.transee.transee.model.LatLon;
 
 /**
  * @author Michael Zhukov
@@ -23,7 +22,7 @@ public class Station {
         return id;
     }
 
-    public LatLon getPosition() {
-        return new LatLon(position[0], position[1]);
+    public LatLng getPosition() {
+        return new LatLng(position[0], position[1]);
     }
 }

@@ -2,9 +2,9 @@ package in.transee.transee.model.city;
 
 import android.content.Context;
 
-import java.io.Serializable;
+import com.google.android.gms.maps.model.LatLng;
 
-import in.transee.transee.model.LatLon;
+import java.io.Serializable;
 
 /**
  * @author Michael Zhukov
@@ -30,7 +30,7 @@ public class City implements Serializable {
         return ctx.getResources().getString(resId);
     }
 
-    public LatLon getCoordinates() {
-        return new LatLon(latitude, longitude);
+    public LatLng getCoordinates() {
+        return new LatLng(latitude, longitude);
     }
 }

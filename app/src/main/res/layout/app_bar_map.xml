@@ -2,11 +2,9 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -51,7 +49,8 @@
             app:fab_colorNormal="@color/green500"
             app:fab_colorPressed="@color/green700"
             app:fab_icon="@drawable/ic_calendar_clock_white_24dp"
-            app:fab_title="@string/fab_schedule"/>
+            app:fab_title="@string/fab_schedule"
+            android:onClick="onFabScheduleClick"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_next_to_me"
@@ -61,7 +60,8 @@
             app:fab_colorNormal="@color/brown500"
             app:fab_colorPressed="@color/brown700"
             app:fab_icon="@drawable/ic_map_marker_radius_white_24dp"
-            app:fab_title="@string/fab_next_to_me"/>
+            app:fab_title="@string/fab_next_to_me"
+            android:onClick="onFabNextToMeClick"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_show_several"
@@ -71,7 +71,8 @@
             app:fab_colorNormal="@color/red500"
             app:fab_colorPressed="@color/red700"
             app:fab_icon="@drawable/ic_map_marker_multiple_white_24dp"
-            app:fab_title="@string/fab_show_several"/>
+            app:fab_title="@string/fab_show_several"
+            android:onClick="onFabShowSeveralClick"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
