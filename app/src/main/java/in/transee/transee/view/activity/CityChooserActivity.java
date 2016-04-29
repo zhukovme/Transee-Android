@@ -41,16 +41,23 @@ public class CityChooserActivity extends AppCompatActivity {
         Repository.INSTANCE.getCities()
                 .subscribe(
                         cities -> adapter.setData(cities),
-                        throwable -> onError(getString(R.string.not_available_msg)),
-                        () -> progressBar.setVisibility(View.GONE));
+                        throwable -> {
+                            onError(getString(R.string.not_available_msg));
+                            throwable.printStackTrace();
+                        },
+                        this::hideProgressBar);
     }
 
-    public void onError(String errorMsg) {
+    private void onError(String errorMsg) {
         Snackbar
                 .make(rvCities, errorMsg, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.retry_snack_action, v -> {
                     startLoadingCities();
                 })
                 .show();
+    }
+
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 }

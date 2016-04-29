@@ -39,6 +39,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/app_bar"/>
 
+        <ProgressBar
+            android:id="@+id/pb_transport_chooser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_centerInParent="true"/>
+
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton

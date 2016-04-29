@@ -1,10 +1,11 @@
-package in.transee.transee.data;
+package in.transee.transee.data.transportListItem;
 
 /**
  * @author Michael Zhukov
  */
 public class TransportListItem {
 
+    private String type;
     private String name;
     private String id;
     private boolean isChecked;
@@ -33,5 +34,13 @@ public class TransportListItem {
 
     public void setIsChecked(boolean isChecked) {
         this.isChecked = isChecked;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

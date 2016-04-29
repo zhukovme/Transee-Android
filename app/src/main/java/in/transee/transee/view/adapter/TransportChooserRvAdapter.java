@@ -1,6 +1,5 @@
 package in.transee.transee.view.adapter;
 
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,11 @@ import android.widget.TextView;
 import com.bignerdranch.android.multiselector.MultiSelector;
 import com.bignerdranch.android.multiselector.SwappingHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import in.transee.transee.R;
-import in.transee.transee.data.TransportListItem;
+import in.transee.transee.data.transportListItem.TransportListItem;
+import in.transee.transee.data.transportListItem.TransportListItemsObservable;
 
 /**
  * @author Michael Zhukov
@@ -22,15 +21,15 @@ import in.transee.transee.data.TransportListItem;
 public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportChooserRvAdapter.ItemHolder> {
 
     private List<TransportListItem> transportItems;
-    private FloatingActionButton fabApplyTransport;
+    private TransportListItemsObservable transportListItemsObservable;
     private MultiSelector multiSelector;
 
     public TransportChooserRvAdapter(List<TransportListItem> transportItems,
-                                     FloatingActionButton fabApplyTransport) {
+                                     TransportListItemsObservable transportListItemsObservable) {
         this.transportItems = transportItems;
+        this.transportListItemsObservable = transportListItemsObservable;
         multiSelector = new MultiSelector();
         multiSelector.setSelectable(true);
-        this.fabApplyTransport = fabApplyTransport;
     }
 
     @Override
@@ -52,16 +51,6 @@ public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportCho
         return transportItems.size();
     }
 
-    public List<String> getSelectedItems() {
-        List<String> selectedItems = new ArrayList<>();
-        for (TransportListItem item : transportItems) {
-            if (item.isChecked()) {
-                selectedItems.add(item.getId());
-            }
-        }
-        return selectedItems;
-    }
-
     class ItemHolder extends SwappingHolder implements View.OnClickListener {
 
         private TextView transportName;
@@ -76,8 +65,12 @@ public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportCho
         public void onClick(View v) {
             TransportListItem item = transportItems.get(getAdapterPosition());
             item.setIsChecked(!item.isChecked());
+            if (item.isChecked()) {
+                transportListItemsObservable.addItem(item);
+            } else {
+                transportListItemsObservable.deleteItem(item);
+            }
             multiSelector.tapSelection(this);
-            fabApplyTransport.show();
         }
     }
 }

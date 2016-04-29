@@ -25,7 +25,7 @@ public interface ApiInterface {
     @GET("api/v1/cities/{city}/coordinates")
     Observable<double[]> citiesCoordinates(@Path("city") String city);
 
-    @GET("api/v1/cities/{city}/")
+    @GET("api/v1/cities/{city}")
     Observable<List<TransportType>> transports(@Path("city") String city);
 
     @GET("api/v1/cities/{city}/routes")
