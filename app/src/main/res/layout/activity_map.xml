@@ -35,7 +35,7 @@
 
         <fragment
             android:id="@+id/lv_history"
-            android:name="in.transee.transee.ui.fragment.HistoryListFragment"
+            android:name="in.transee.transee.view.fragment.HistoryListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/divider"/>

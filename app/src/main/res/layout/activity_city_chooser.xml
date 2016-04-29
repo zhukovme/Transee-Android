@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@drawable/bg">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
+        android:id="@+id/tv_choose_city"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:text="@string/choose_city_title"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/choose_city_title_size"
+        android:textColor="@android:color/white"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/choose_city_title"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:textSize="@dimen/choose_city_title_size"
-            android:textColor="@android:color/white"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_cities"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_choose_city"/>
 
-        <fragment
-            android:id="@+id/lv_cities"
-            android:name="in.transee.transee.ui.fragment.CityChooserFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+    <ProgressBar
+        android:id="@+id/pb_city_chooser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_centerInParent="true"/>
 
-    </LinearLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

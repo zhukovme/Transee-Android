@@ -2,7 +2,8 @@ package in.transee.transee.api;
 
 import java.util.List;
 
-import in.transee.transee.model.city.City;
+import in.transee.transee.data.city.City;
+import in.transee.transee.data.transport.TransportType;
 import rx.Observable;
 
 /**
@@ -16,6 +17,13 @@ public enum Repository {
 //        if (database.hasData()) {
 //            return database.data();
 //        } else
-        return Fetcher.INSTANCE.getCities();
+        return Fetcher.INSTANCE.fetchCities();
+    }
+
+    public Observable<List<TransportType>> getTransports(String city) {
+//        if (database.hasData()) {
+//            return database.data();
+//        } else
+        return Fetcher.INSTANCE.fetchTransports(city);
     }
 }
