@@ -15,21 +15,19 @@ import android.widget.ProgressBar;
 import com.astuetz.PagerSlidingTabStrip;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import in.transee.transee.R;
 import in.transee.transee.api.Repository;
-import in.transee.transee.data.transportListItem.TransportListItem;
 import in.transee.transee.data.city.City;
 import in.transee.transee.data.transport.TransportItem;
 import in.transee.transee.data.transport.TransportType;
-import in.transee.transee.data.transportListItem.TransportListItemsObservable;
+import in.transee.transee.data.transportListItem.TransportChooserObservable;
+import in.transee.transee.data.transportListItem.TransportListItem;
 import in.transee.transee.view.adapter.RvPagerAdapter;
 import in.transee.transee.view.adapter.TransportChooserRvAdapter;
-import rx.functions.Action1;
+import rx.Observable;
 
 /**
  * @author Michael Zhukov
@@ -40,10 +38,9 @@ public class TransportChooserActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabs;
-    private FloatingActionButton fabApplyTransport;
     private ProgressBar progressBar;
 
-    private TransportListItemsObservable transportListItemsObservable;
+    private TransportChooserObservable transportChooserObservable;
 
     private City currentCity;
 
@@ -61,33 +58,43 @@ public class TransportChooserActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.pager);
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         progressBar = (ProgressBar) findViewById(R.id.pb_transport_chooser);
-        fabApplyTransport = (FloatingActionButton) findViewById(R.id.fab_apply_transport);
-        fabApplyTransport.hide();
+        FloatingActionButton fabLocateTransport = (FloatingActionButton)
+                findViewById(R.id.fab_locate_transport);
+        fabLocateTransport.hide();
 
-        transportListItemsObservable = new TransportListItemsObservable(fabApplyTransport);
+        transportChooserObservable = new TransportChooserObservable(fabLocateTransport);
 
         startLoadingTransports();
     }
 
-    public void onFabApplyTransportClick(View view) {
-        Intent intent = new Intent(this, MapActivity.class);
-        transportListItemsObservable.asMapObservable()
-                .subscribe(map -> {
-                    intent.putExtra(SELECTED_TRANSPORT_EXTRA, (HashMap) map);
+    public void onFabLocateTransportClick(View view) {
+        transportChooserObservable.getSelectedItems()
+                .subscribe(mapSelected -> {
+                    Intent intent = new Intent(this, MapActivity.class);
+                    intent.putExtra(SELECTED_TRANSPORT_EXTRA, (HashMap) mapSelected);
+                    setResult(RESULT_OK, intent);
+                    onBackPressed();
                 });
-        setResult(RESULT_OK, intent);
-        onBackPressed();
     }
 
     private void startLoadingTransports() {
-        Repository.INSTANCE.getTransports(currentCity.getName(this))
+        final List<RecyclerView> recyclerViews = new ArrayList<>();
+        Repository.INSTANCE.getTransports(currentCity.getId())
+                .doOnNext(transports -> recyclerViews.addAll(setupRecyclerViews(transports)))
+                .flatMap(Observable::from)
+                .map(transport -> transport.getName(this))
+                .toList()
                 .subscribe(
-                        transportTypes -> setupTabs(transportTypes),
+                        transportNames -> setupTabs(recyclerViews, transportNames),
                         throwable -> {
                             onError(getString(R.string.not_available_msg));
                             throwable.printStackTrace();
                         },
                         this::hideProgressBar);
+    }
+
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 
     private void onError(String errorMsg) {
@@ -99,24 +106,9 @@ public class TransportChooserActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    private void setupTabs(List<TransportType> transportList) {
-        viewPager.setAdapter(new RvPagerAdapter(
-                setupRecyclerViews(transportList),
-                setupTabTitles(transportList)));
+    private void setupTabs(List<RecyclerView> pages, List<String> tabTitles) {
+        viewPager.setAdapter(new RvPagerAdapter(pages, tabTitles));
         tabs.setViewPager(viewPager);
-    }
-
-    private List<String> setupTabTitles(List<TransportType> transportList) {
-        List<String> tabTitles = new ArrayList<>();
-        for (TransportType type : transportList) {
-            tabTitles.add(getString(
-                    getResources().getIdentifier(type.getType(), "string", getPackageName())));
-        }
-        return tabTitles;
     }
 
     private List<RecyclerView> setupRecyclerViews(List<TransportType> transportList) {
@@ -125,7 +117,7 @@ public class TransportChooserActivity extends AppCompatActivity {
             RecyclerView rv = new RecyclerView(this);
             rv.setAdapter(new TransportChooserRvAdapter(
                     setupTransportList(type),
-                    transportListItemsObservable));
+                    transportChooserObservable));
             rv.setLayoutManager(new LinearLayoutManager(this));
             rv.setTag(type.getType());
             rvList.add(rv);

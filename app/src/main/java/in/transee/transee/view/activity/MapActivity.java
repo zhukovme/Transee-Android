@@ -70,8 +70,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         switch (requestCode) {
             case TRANSPORT_CHOOSER_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    HashMap<String, List<String>> selectedTransport =
-                            (HashMap<String, List<String>>) data.getSerializableExtra(
+                    HashMap selectedTransport = (HashMap<String, List<String>>)
+                            data.getSerializableExtra(
                                     TransportChooserActivity.SELECTED_TRANSPORT_EXTRA);
                     mapPresenter.showSeveralTransport(selectedTransport);
                 }

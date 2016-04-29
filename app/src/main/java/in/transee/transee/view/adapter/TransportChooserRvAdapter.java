@@ -13,7 +13,7 @@ import java.util.List;
 
 import in.transee.transee.R;
 import in.transee.transee.data.transportListItem.TransportListItem;
-import in.transee.transee.data.transportListItem.TransportListItemsObservable;
+import in.transee.transee.data.transportListItem.TransportChooserObservable;
 
 /**
  * @author Michael Zhukov
@@ -21,13 +21,13 @@ import in.transee.transee.data.transportListItem.TransportListItemsObservable;
 public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportChooserRvAdapter.ItemHolder> {
 
     private List<TransportListItem> transportItems;
-    private TransportListItemsObservable transportListItemsObservable;
+    private TransportChooserObservable transportChooserObservable;
     private MultiSelector multiSelector;
 
     public TransportChooserRvAdapter(List<TransportListItem> transportItems,
-                                     TransportListItemsObservable transportListItemsObservable) {
+                                     TransportChooserObservable transportChooserObservable) {
         this.transportItems = transportItems;
-        this.transportListItemsObservable = transportListItemsObservable;
+        this.transportChooserObservable = transportChooserObservable;
         multiSelector = new MultiSelector();
         multiSelector.setSelectable(true);
     }
@@ -66,9 +66,9 @@ public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportCho
             TransportListItem item = transportItems.get(getAdapterPosition());
             item.setIsChecked(!item.isChecked());
             if (item.isChecked()) {
-                transportListItemsObservable.addItem(item);
+                transportChooserObservable.addItem(item);
             } else {
-                transportListItemsObservable.deleteItem(item);
+                transportChooserObservable.deleteItem(item);
             }
             multiSelector.tapSelection(this);
         }

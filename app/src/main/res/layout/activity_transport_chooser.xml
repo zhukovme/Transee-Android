@@ -49,13 +49,13 @@
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_apply_transport"
+        android:id="@+id/fab_locate_transport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_crosshairs_gps_white_24dp"
         app:layout_anchor="@id/pager"
         app:layout_anchorGravity="bottom|right|end"
         android:layout_margin="16dp"
-        android:onClick="onFabApplyTransportClick"/>
+        android:onClick="onFabLocateTransportClick"/>
 
 </android.support.design.widget.CoordinatorLayout>

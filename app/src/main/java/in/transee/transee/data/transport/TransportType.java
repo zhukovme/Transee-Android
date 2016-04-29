@@ -1,5 +1,7 @@
 package in.transee.transee.data.transport;
 
+import android.content.Context;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -17,6 +19,11 @@ public class TransportType {
     public TransportType(String type, List<TransportItem> items) {
         this.type = type;
         this.items = items;
+    }
+
+    public String getName(Context context) {
+        return context.getString(
+                context.getResources().getIdentifier(type, "string", context.getPackageName()));
     }
 
     public String getType() {

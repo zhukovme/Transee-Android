@@ -12,19 +12,19 @@ import rx.Observable;
 /**
  * @author Michael Zhukov
  */
-public class TransportListItemsObservable {
+public class TransportChooserObservable {
 
     private List<TransportListItem> transportListItems = new ArrayList<>();
 
-    private FloatingActionButton fabApply;
+    private FloatingActionButton fabLocateTransport;
 
-    public TransportListItemsObservable(FloatingActionButton fabApply) {
-        this.fabApply = fabApply;
+    public TransportChooserObservable(FloatingActionButton fabLocateTransport) {
+        this.fabLocateTransport = fabLocateTransport;
     }
 
     public void addItem(TransportListItem transportListItem) {
         if (transportListItems.isEmpty()) {
-            fabApply.show();
+            fabLocateTransport.show();
         }
         transportListItems.add(transportListItem);
     }
@@ -32,11 +32,11 @@ public class TransportListItemsObservable {
     public void deleteItem(TransportListItem transportListItem) {
         transportListItems.remove(transportListItem);
         if (transportListItems.isEmpty()) {
-            fabApply.hide();
+            fabLocateTransport.hide();
         }
     }
 
-    public Observable<Map<String, List<String>>> asMapObservable() {
+    public Observable<Map<String, List<String>>> getSelectedItems() {
         return Observable
                 .just(transportListItems)
                 .flatMap(Observable::from)
