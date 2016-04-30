@@ -1,5 +1,7 @@
 package in.transee.transee.data.route;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -7,13 +9,21 @@ import java.util.List;
  */
 public class Routes {
 
-    private List<RouteType> routes;
+    @SerializedName("type")
+    private String type;
+    @SerializedName("items")
+    private List<RouteItem> items;
 
-    public Routes(List<RouteType> routeTypes) {
-        this.routes = routeTypes;
+    public Routes(String type, List<RouteItem> items) {
+        this.type = type;
+        this.items = items;
     }
 
-    public List<RouteType> getRoutes() {
-        return routes;
+    public String getType() {
+        return type;
+    }
+
+    public List<RouteItem> getItems() {
+        return items;
     }
 }

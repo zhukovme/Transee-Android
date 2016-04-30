@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.List;
 
 import in.transee.transee.data.route.RouteItem;
-import in.transee.transee.data.route.RouteType;
+import in.transee.transee.data.route.Routes;
 
 /**
  * @author Michael Zhukov
@@ -24,9 +24,9 @@ public class RoutesDrawer {
         this.googleMap = googleMap;
     }
 
-    public void draw(List<RouteType> routes) {
-        for (RouteType route : routes) {
-            for (RouteItem item : route.getItems()) {
+    public void draw(List<Routes> routesList) {
+        for (Routes routes : routesList) {
+            for (RouteItem item : routes.getItems()) {
                 PolylineOptions polylineOptions = new PolylineOptions();
                 for (LatLng latLng : item.getRoute()) {
                     drawPolyline(polylineOptions, latLng, Color.RED);

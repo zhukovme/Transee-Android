@@ -22,7 +22,7 @@ import in.transee.transee.R;
 import in.transee.transee.api.Repository;
 import in.transee.transee.data.city.City;
 import in.transee.transee.data.transport.TransportItem;
-import in.transee.transee.data.transport.TransportType;
+import in.transee.transee.data.transport.Transports;
 import in.transee.transee.data.transportListItem.TransportChooserObservable;
 import in.transee.transee.data.transportListItem.TransportListItem;
 import in.transee.transee.view.adapter.RvPagerAdapter;
@@ -76,16 +76,16 @@ public class TransportChooserActivity extends AppCompatActivity {
     }
 
     private void startLoadingTransports() {
-        final List<RecyclerView> recyclerViews = new ArrayList<>();
+        List<RecyclerView> recyclerViews = new ArrayList<>();
         Repository.INSTANCE.getTransports(currentCity.getId())
-                .doOnNext(transports -> recyclerViews.addAll(setupRecyclerViews(transports)))
+                .doOnNext(transportsList -> recyclerViews.addAll(setupRecyclerViews(transportsList)))
                 .flatMap(Observable::from)
-                .map(transport -> transport.getName(this))
+                .map(transports -> transports.getName(this))
                 .toList()
                 .subscribe(
                         transportNames -> setupTabs(recyclerViews, transportNames),
                         throwable -> {
-                            onError(getString(R.string.not_available_msg));
+                            onError();
                             throwable.printStackTrace();
                         },
                         this::hideProgressBar);
@@ -95,9 +95,10 @@ public class TransportChooserActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-    private void onError(String errorMsg) {
+    private void onError() {
         Snackbar
-                .make(progressBar, errorMsg, Snackbar.LENGTH_INDEFINITE)
+                .make(progressBar, getString(R.string.error_msg_snackbar),
+                        Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.retry_snack_action, v -> {
                     startLoadingTransports();
                 })
@@ -109,9 +110,9 @@ public class TransportChooserActivity extends AppCompatActivity {
         tabs.setViewPager(viewPager);
     }
 
-    private List<RecyclerView> setupRecyclerViews(List<TransportType> transportList) {
+    private List<RecyclerView> setupRecyclerViews(List<Transports> transportsList) {
         List<RecyclerView> rvList = new ArrayList<>();
-        for (TransportType type : transportList) {
+        for (Transports type : transportsList) {
             RecyclerView rv = new RecyclerView(this);
             rv.setAdapter(new TransportChooserRvAdapter(
                     setupTransportList(type),
@@ -123,11 +124,11 @@ public class TransportChooserActivity extends AppCompatActivity {
         return rvList;
     }
 
-    private List<TransportListItem> setupTransportList(TransportType type) {
+    private List<TransportListItem> setupTransportList(Transports transports) {
         List<TransportListItem> transportList = new ArrayList<>();
-        for (TransportItem item : type.getItems()) {
+        for (TransportItem item : transports.getItems()) {
             TransportListItem transportListItem = new TransportListItem();
-            transportListItem.setType(type.getType());
+            transportListItem.setType(transports.getType());
             transportListItem.setName(item.getName());
             transportListItem.setId(item.getId());
             transportList.add(transportListItem);

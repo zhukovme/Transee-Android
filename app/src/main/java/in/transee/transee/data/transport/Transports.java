@@ -9,14 +9,14 @@ import java.util.List;
 /**
  * @author Michael Zhukov
  */
-public class TransportType {
+public class Transports {
 
     @SerializedName("type")
     private String type;
     @SerializedName("items")
     private List<TransportItem> items;
 
-    public TransportType(String type, List<TransportItem> items) {
+    public Transports(String type, List<TransportItem> items) {
         this.type = type;
         this.items = items;
     }

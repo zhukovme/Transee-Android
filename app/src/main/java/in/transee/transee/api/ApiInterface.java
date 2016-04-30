@@ -2,11 +2,11 @@ package in.transee.transee.api;
 
 import java.util.List;
 
-import in.transee.transee.data.position.PositionType;
-import in.transee.transee.data.route.RouteType;
+import in.transee.transee.data.position.Positions;
+import in.transee.transee.data.route.Routes;
 import in.transee.transee.data.station.Station;
 import in.transee.transee.data.station.info.StationInfo;
-import in.transee.transee.data.transport.TransportType;
+import in.transee.transee.data.transport.Transports;
 import in.transee.transee.data.transport.info.TransportInfo;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -26,18 +26,18 @@ public interface ApiInterface {
     Observable<double[]> citiesCoordinates(@Path("city") String city);
 
     @GET("api/v1/cities/{city}")
-    Observable<List<TransportType>> transports(@Path("city") String city);
+    Observable<List<Transports>> transports(@Path("city") String city);
 
     @GET("api/v1/cities/{city}/routes")
-    Observable<List<RouteType>> routes(@Path("city") String city);
+    Observable<List<Routes>> routes(@Path("city") String city);
 
     @GET("api/v1/cities/{city}/positions")
-    Observable<List<PositionType>> positions(@Path("city") String city,
-                                           @Query("type[]") String[] types,
-                                           @Query("numbers[autobus][]") String[] buses,
-                                           @Query("numbers[trolleybus][]") String[] trolleys,
-                                           @Query("numbers[tram][]") String[] trams,
-                                           @Query("numbers[minibus_taxi][]") String[] minibuses);
+    Observable<List<Positions>> positions(@Path("city") String city,
+                                          @Query("type[]") String[] types,
+                                          @Query("numbers[autobus][]") String[] buses,
+                                          @Query("numbers[trolleybus][]") String[] trolleys,
+                                          @Query("numbers[tram][]") String[] trams,
+                                          @Query("numbers[minibus_taxi][]") String[] minibuses);
 
     @GET("api/v1/cities/{city}/transport_info")
     Observable<List<TransportInfo>> transportInfo(@Path("city") String city,

@@ -42,15 +42,15 @@ public class CityChooserActivity extends AppCompatActivity {
                 .subscribe(
                         cities -> adapter.setData(cities),
                         throwable -> {
-                            onError(getString(R.string.not_available_msg));
+                            onError();
                             throwable.printStackTrace();
                         },
                         this::hideProgressBar);
     }
 
-    private void onError(String errorMsg) {
+    private void onError() {
         Snackbar
-                .make(rvCities, errorMsg, Snackbar.LENGTH_INDEFINITE)
+                .make(rvCities, getString(R.string.error_msg_snackbar), Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.retry_snack_action, v -> {
                     startLoadingCities();
                 })

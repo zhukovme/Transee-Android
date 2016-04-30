@@ -1,5 +1,6 @@
 package in.transee.transee.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -27,7 +28,8 @@ import in.transee.transee.presenter.MapPresenter;
 /**
  * @author Michael Zhukov
  */
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
+        in.transee.transee.view.View {
 
     public static final String CURRENT_CITY_EXTRA = "current_city_extra";
 
@@ -61,7 +63,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawer.setDrawerShadow(R.drawable.drawer_dropshadow, GravityCompat.START);
         toggle.syncState();
 
-
         fam = (FloatingActionsMenu) findViewById(R.id.fam);
     }
 
@@ -79,12 +80,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void onFabScheduleClick(View view) {
-        Snackbar.make(view, "Schedule", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(fam, "Schedule", Snackbar.LENGTH_LONG).show();
         fam.collapse();
     }
 
     public void onFabNextToMeClick(View view) {
-        Snackbar.make(view, "Next To Me", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(fam, "Next To Me", Snackbar.LENGTH_LONG).show();
         fam.collapse();
     }
 
@@ -96,7 +97,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void onSettingsClick(View view) {
-        Snackbar.make(view, "Settings", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(fam, "Settings", Snackbar.LENGTH_LONG).show();
         onBackPressed();
     }
 
@@ -104,6 +105,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         startActivity(new Intent(this, CityChooserActivity.class));
         onBackPressed();
         finish();
+    }
+
+    @Override
+    public void onError() {
+        Snackbar
+                .make(fam, getString(R.string.error_msg_snackbar), Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapPresenter.onDestroy();
     }
 
     @Override
