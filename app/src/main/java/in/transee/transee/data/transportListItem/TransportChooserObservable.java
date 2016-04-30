@@ -3,11 +3,9 @@ package in.transee.transee.data.transportListItem;
 import android.support.design.widget.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import rx.Observable;
 
 /**
  * @author Michael Zhukov
@@ -36,22 +34,20 @@ public class TransportChooserObservable {
         }
     }
 
-    public Observable<Map<String, List<String>>> getSelectedItems() {
-        return Observable
-                .just(transportListItems)
-                .flatMap(Observable::from)
-                .reduce(Collections.<String, List<String>>emptyMap(), (total, next) -> {
-                    List<String> items = total.get(next.getType());
-                    if (items != null) {
-                        items.add(next.getId());
-                        total.put(next.getType(), items);
-                        return total;
-                    } else {
-                        List<String> temp = new ArrayList<>();
-                        temp.add(next.getId());
-                        total.put(next.getType(), temp);
-                        return total;
-                    }
-                });
+    public Map<String, List<String>> getSelectedItems() {
+        Map<String, List<String>> selectedItems = new HashMap<>();
+        List<String> items;
+        for (TransportListItem item : transportListItems) {
+            items = selectedItems.get(item.getType());
+            if (items != null) {
+                items.add(item.getId());
+                selectedItems.put(item.getType(), items);
+            } else {
+                items = new ArrayList<>();
+                items.add(item.getId());
+                selectedItems.put(item.getType(), items);
+            }
+        }
+        return selectedItems;
     }
 }

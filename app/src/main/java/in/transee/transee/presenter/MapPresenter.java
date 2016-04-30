@@ -8,7 +8,9 @@ import com.google.android.gms.maps.GoogleMap;
 import java.util.HashMap;
 import java.util.List;
 
+import in.transee.transee.api.Repository;
 import in.transee.transee.data.city.City;
+import in.transee.transee.view.drawer.RoutesDrawer;
 
 /**
  * @author Michael Zhukov
@@ -16,7 +18,6 @@ import in.transee.transee.data.city.City;
 public class MapPresenter {
 
     private static final float DEFAULT_MAP_ZOOM = 12;
-    private static final float POLY_LINE_WIDTH = 6;
 
     private AppCompatActivity activity;
     private GoogleMap googleMap;
@@ -33,7 +34,11 @@ public class MapPresenter {
                 CameraUpdateFactory.newLatLngZoom(currentCity.getCoordinates(), DEFAULT_MAP_ZOOM));
     }
 
-    public void showSeveralTransport(HashMap<String, List<String>> transportIds) {
-
+    public void locateTransports(HashMap<String, List<String>> transportIds) {
+        googleMap.clear();
+        RoutesDrawer routesDrawer = new RoutesDrawer(googleMap);
+        Repository.INSTANCE
+                .getRoutes(currentCity.getId(), transportIds)
+                .subscribe(routesDrawer::draw);
     }
 }

@@ -14,7 +14,7 @@
     <string name="fab_schedule">Schedule</string>
     <string name="fab_next_to_me">Next to me</string>
     <string name="fab_show_several">Show several transports</string>
-    <string name="not_available_msg">Sorry, we are not available now</string>
+    <string name="not_available_msg">Something went wrong</string>
     <string name="retry_snack_action">RETRY</string>
 
     <string name="astrakhan">Astrakhan</string>

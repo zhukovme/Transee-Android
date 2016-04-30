@@ -68,13 +68,11 @@ public class TransportChooserActivity extends AppCompatActivity {
     }
 
     public void onFabLocateTransportClick(View view) {
-        transportChooserObservable.getSelectedItems()
-                .subscribe(mapSelected -> {
-                    Intent intent = new Intent(this, MapActivity.class);
-                    intent.putExtra(SELECTED_TRANSPORT_EXTRA, (HashMap) mapSelected);
-                    setResult(RESULT_OK, intent);
-                    onBackPressed();
-                });
+        Intent intent = new Intent(this, MapActivity.class);
+        HashMap selectedItems = (HashMap) transportChooserObservable.getSelectedItems();
+        intent.putExtra(SELECTED_TRANSPORT_EXTRA, selectedItems);
+        setResult(RESULT_OK, intent);
+        onBackPressed();
     }
 
     private void startLoadingTransports() {

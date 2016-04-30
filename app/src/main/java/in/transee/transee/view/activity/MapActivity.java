@@ -73,7 +73,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     HashMap selectedTransport = (HashMap<String, List<String>>)
                             data.getSerializableExtra(
                                     TransportChooserActivity.SELECTED_TRANSPORT_EXTRA);
-                    mapPresenter.showSeveralTransport(selectedTransport);
+                    mapPresenter.locateTransports(selectedTransport);
                 }
         }
     }

@@ -3,6 +3,7 @@ package in.transee.transee.api;
 import java.util.List;
 
 import in.transee.transee.data.city.City;
+import in.transee.transee.data.route.RouteType;
 import in.transee.transee.data.transport.TransportType;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,6 +31,12 @@ public enum Fetcher {
 
     public Observable<List<TransportType>> fetchTransports(String city) {
         return apiInterface.transports(city)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<RouteType>> fetchRoutes(String city) {
+        return apiInterface.routes(city)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

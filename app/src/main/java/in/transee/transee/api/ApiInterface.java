@@ -37,7 +37,7 @@ public interface ApiInterface {
                                            @Query("numbers[autobus][]") String[] buses,
                                            @Query("numbers[trolleybus][]") String[] trolleys,
                                            @Query("numbers[tram][]") String[] trams,
-                                           @Query("numbers[minibus_taxi][]") String[] taxi);
+                                           @Query("numbers[minibus_taxi][]") String[] minibuses);
 
     @GET("api/v1/cities/{city}/transport_info")
     Observable<List<TransportInfo>> transportInfo(@Path("city") String city,
