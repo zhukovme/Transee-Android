@@ -22,6 +22,7 @@ import rx.subscriptions.Subscriptions;
 public class MapPresenter {
 
     private static final float DEFAULT_MAP_ZOOM = 12;
+    private static final int POSITIONS_UPDATE_PERIOD = 15;
 
     private View view;
     private GoogleMap googleMap;
@@ -57,7 +58,7 @@ public class MapPresenter {
 
         positionsDrawer.getMarkerList().clear();
 
-        subscription = Observable.interval(0, 5, TimeUnit.SECONDS)
+        subscription = Observable.interval(0, POSITIONS_UPDATE_PERIOD, TimeUnit.SECONDS)
                 .flatMap((tick) -> Repository.INSTANCE
                         .getPositions(currentCity.getId(), transportIds))
                 .subscribe(
