@@ -80,12 +80,12 @@ public class TransportIconGenerator {
 
     private void drawText(String text) {
         paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.FILL);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setTextAlign(Paint.Align.CENTER);
-        if (text.length() > maxTextLength) {
-            paint.setTextSize(textSize);
+        if (text.length() >= maxTextLength) {
+            paint.setTextSize(textSize - 5);
         } else {
-            paint.setTextSize(textSize + 3);
+            paint.setTextSize(textSize);
         }
         canvas.drawText(text, width * 0.5f, height - width * 0.37f, paint);
     }
