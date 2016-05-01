@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 import in.transee.transee.api.Repository;
 import in.transee.transee.data.city.City;
+import in.transee.transee.util.drawer.PositionsDrawer;
+import in.transee.transee.util.drawer.RoutesDrawer;
 import in.transee.transee.view.View;
-import in.transee.transee.view.drawer.PositionsDrawer;
-import in.transee.transee.view.drawer.RoutesDrawer;
 import rx.Observable;
 import rx.Subscription;
 import rx.subscriptions.Subscriptions;
@@ -45,7 +45,8 @@ public class MapPresenter {
     }
 
     public void locateTransports(HashMap<String, List<String>> transportIds) {
-        googleMap.clear();
+        reset();
+
         RoutesDrawer routesDrawer = new RoutesDrawer(googleMap);
         Repository.INSTANCE
                 .getRoutes(currentCity.getId(), transportIds)
@@ -55,8 +56,6 @@ public class MapPresenter {
                             view.onError();
                             throwable.printStackTrace();
                         });
-
-        positionsDrawer.getMarkerList().clear();
 
         subscription = Observable.interval(0, POSITIONS_UPDATE_PERIOD, TimeUnit.SECONDS)
                 .flatMap((tick) -> Repository.INSTANCE
@@ -69,7 +68,9 @@ public class MapPresenter {
                         });
     }
 
-    public void onDestroy() {
+    public void reset() {
+        googleMap.clear();
+        positionsDrawer.getMarkerList().clear();
         if (!subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }

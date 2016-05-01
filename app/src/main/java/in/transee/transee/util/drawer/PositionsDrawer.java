@@ -1,10 +1,10 @@
-package in.transee.transee.view.drawer;
+package in.transee.transee.util.drawer;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -12,10 +12,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.transee.transee.R;
 import in.transee.transee.data.position.PositionItem;
 import in.transee.transee.data.position.Positions;
 import in.transee.transee.data.position.Vehicle;
+import in.transee.transee.util.TransportIconGenerator;
 
 /**
  * @author Michael Zhukov
@@ -29,11 +29,13 @@ public class PositionsDrawer {
 
     private Context context;
     private GoogleMap googleMap;
+    private TransportIconGenerator transportIconGenerator;
 
     public PositionsDrawer(Context context, GoogleMap googleMap) {
         this.context = context;
         this.googleMap = googleMap;
         markerList = new ArrayList<>();
+        transportIconGenerator = new TransportIconGenerator(context);
     }
 
     public List<Marker> getMarkerList() {
@@ -53,7 +55,8 @@ public class PositionsDrawer {
                             vehicle.getGosId(),
                             vehicle.getPosition(),
                             vehicle.getAngle(),
-                            BitmapDescriptorFactory.fromResource(R.drawable.transport_marker));
+                            transportIconGenerator.getIcon(item.getName(), Color.DKGRAY,
+                                    vehicle.getAngle()));
                     markerList.add(marker);
                 }
             }
@@ -69,6 +72,8 @@ public class PositionsDrawer {
                             if (!marker.getPosition().equals(vehicle.getPosition())) {
                                 marker.setVisible(false);
                                 marker.setPosition(vehicle.getPosition());
+                                marker.setIcon(transportIconGenerator.getIcon(item.getName(),
+                                        Color.DKGRAY, vehicle.getAngle()));
                                 marker.setRotation(vehicle.getAngle());
                                 marker.setVisible(true);
                             }

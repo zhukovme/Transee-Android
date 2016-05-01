@@ -122,7 +122,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mapPresenter.onDestroy();
+        mapPresenter.reset();
     }
 
     @Override

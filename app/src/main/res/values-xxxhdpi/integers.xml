@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="transport_icon_width">96</integer>
+    <integer name="transport_icon_height">129</integer>
+    <integer name="transport_icon_text_size">11</integer>
+    <integer name="transport_icon_stroke_width">1</integer>
+</resources>

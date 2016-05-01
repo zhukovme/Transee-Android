@@ -1,4 +1,4 @@
-package in.transee.transee.view.drawer;
+package in.transee.transee.util.drawer;
 
 import android.graphics.Color;
 
