@@ -26,20 +26,17 @@ public enum Fetcher {
                 .flatMap(city ->
                         apiInterface.citiesCoordinates(city)
                                 .map(coordinates -> new City(city, coordinates)))
-                .toList()
-                .observeOn(AndroidSchedulers.mainThread());
+                .toList();
     }
 
     public Observable<List<Transports>> fetchTransports(String city) {
         return apiInterface.transports(city)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(Schedulers.io());
     }
 
     public Observable<List<Routes>> fetchRoutes(String city) {
         return apiInterface.routes(city)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(Schedulers.io());
     }
 
     public Observable<List<Positions>> fetchPositions(String city, String[] types,

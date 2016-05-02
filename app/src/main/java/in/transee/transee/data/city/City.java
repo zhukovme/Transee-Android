@@ -3,17 +3,30 @@ package in.transee.transee.data.city;
 import android.content.Context;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 
 /**
  * @author Michael Zhukov
  */
+@DatabaseTable(tableName = "cities")
 public class City implements Serializable {
 
+    @DatabaseField(generatedId = true)
+    private int _id;
+
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING)
     private String id;
+    @DatabaseField(canBeNull = false, dataType = DataType.DOUBLE)
     private double latitude;
+    @DatabaseField(canBeNull = false, dataType = DataType.DOUBLE)
     private double longitude;
+
+    public City() {
+    }
 
     public City(String id, double[] coordinates) {
         this.id = id;

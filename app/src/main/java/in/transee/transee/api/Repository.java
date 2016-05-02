@@ -7,7 +7,11 @@ import in.transee.transee.data.city.City;
 import in.transee.transee.data.position.Positions;
 import in.transee.transee.data.route.Routes;
 import in.transee.transee.data.transport.Transports;
+import in.transee.transee.database.CityDao;
+import in.transee.transee.database.DatabaseHelper;
+import in.transee.transee.database.DatabaseHelperFactory;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * @author Michael Zhukov
@@ -15,6 +19,8 @@ import rx.Observable;
 public enum Repository {
 
     INSTANCE;
+
+    private DatabaseHelper database = DatabaseHelperFactory.getHelper();
 
     interface TransportType {
         String BUS = "autobus";
@@ -24,17 +30,24 @@ public enum Repository {
     }
 
     public Observable<List<City>> getCities() {
-//        if (database.hasData()) {
-//            return database.data();
-//        } else
-        return Fetcher.INSTANCE.fetchCities();
+        CityDao cityDao = database.getCityDao();
+
+        List<City> cities = cityDao.getAll();
+        if (cities != null && !cities.isEmpty()) {
+            return Observable.just(cities);
+        }
+
+        return Fetcher.INSTANCE.fetchCities()
+                .doOnNext(cityDao::add)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<Transports>> getTransports(String city) {
 //        if (database.hasData()) {
 //            return database.data();
 //        } else
-        return Fetcher.INSTANCE.fetchTransports(city);
+        return Fetcher.INSTANCE.fetchTransports(city)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<Routes>> getRoutes(String city, Map<String, List<String>> filter) {
@@ -49,7 +62,8 @@ public enum Repository {
                         .filter(item -> filter.get(route.getType()).contains(item.getId()))
                         .toList()
                         .map(items -> new Routes(route.getType(), items)))
-                .toList();
+                .toList()
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<Positions>> getPositions(String city,
