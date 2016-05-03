@@ -3,20 +3,38 @@ package in.transee.transee.data.transport;
 import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * @author Michael Zhukov
  */
+@DatabaseTable(tableName = "transports")
 public class Transports {
 
-    @SerializedName("type")
-    private String type;
-    @SerializedName("items")
-    private List<TransportItem> items;
+    @DatabaseField(generatedId = true)
+    private int _id;
 
-    public Transports(String type, List<TransportItem> items) {
+    @SerializedName("type")
+    @DatabaseField(canBeNull = false)
+    private String type;
+
+    @SerializedName("items")
+    @ForeignCollectionField(eager = true)
+    private Collection<TransportItem> items;
+
+    Transports() {
+    }
+
+    public Transports(String type) {
+        this.type = type;
+    }
+
+    public Transports(String type, Collection<TransportItem> items) {
         this.type = type;
         this.items = items;
     }
@@ -30,7 +48,7 @@ public class Transports {
         return type;
     }
 
-    public List<TransportItem> getItems() {
-        return items;
+    public LinkedList<TransportItem> getItems() {
+        return new LinkedList<>(items);
     }
 }

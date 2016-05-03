@@ -7,9 +7,11 @@ import in.transee.transee.data.city.City;
 import in.transee.transee.data.position.Positions;
 import in.transee.transee.data.route.Routes;
 import in.transee.transee.data.transport.Transports;
-import in.transee.transee.database.CityDao;
 import in.transee.transee.database.DatabaseHelper;
 import in.transee.transee.database.DatabaseHelperFactory;
+import in.transee.transee.database.dao.CityDao;
+import in.transee.transee.database.dao.TransportItemDao;
+import in.transee.transee.database.dao.TransportsDao;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -38,15 +40,27 @@ public enum Repository {
         }
 
         return Fetcher.INSTANCE.fetchCities()
-                .doOnNext(cityDao::add)
+                .doOnNext(cityDao::addInTx)
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<List<Transports>> getTransports(String city) {
-//        if (database.hasData()) {
-//            return database.data();
-//        } else
+        TransportsDao transportsDao = database.getTransportsDao();
+        TransportItemDao transportItemDao = database.getTransportItemDao();
+
+        List<Transports> transportsList = transportsDao.getAll();
+
+        if (transportsList != null && !transportsList.isEmpty()) {
+            return Observable.just(transportsList);
+        }
+
         return Fetcher.INSTANCE.fetchTransports(city)
+                .flatMap(Observable::from)
+                .doOnNext(transports -> {
+                    transportsDao.add(transports);
+                    transportItemDao.addInTx(transports.getItems(), transports);
+                })
+                .toList()
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
