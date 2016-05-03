@@ -48,7 +48,7 @@ public class MapPresenter {
         reset();
 
         RoutesDrawer routesDrawer = new RoutesDrawer(googleMap);
-        Repository.INSTANCE
+        Repository.getInstance()
                 .getRoutes(currentCity.getId(), transportIds)
                 .subscribe(
                         routesDrawer::draw,
@@ -58,7 +58,7 @@ public class MapPresenter {
                         });
 
         subscription = Observable.interval(0, POSITIONS_UPDATE_PERIOD, TimeUnit.SECONDS)
-                .flatMap((tick) -> Repository.INSTANCE
+                .flatMap((tick) -> Repository.getInstance()
                         .getPositions(currentCity.getId(), transportIds))
                 .subscribe(
                         positionsDrawer::draw,

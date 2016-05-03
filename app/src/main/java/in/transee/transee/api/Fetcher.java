@@ -13,11 +13,21 @@ import rx.schedulers.Schedulers;
 /**
  * @author Michael Zhukov
  */
-public enum Fetcher {
+public class Fetcher {
 
-    INSTANCE;
+    private static Fetcher instance = null;
 
     private ApiInterface apiInterface = ApiModule.getApiInterface();
+
+    private Fetcher() {
+    }
+
+    public static Fetcher getInstance() {
+        if (instance == null) {
+            instance = new Fetcher();
+        }
+        return instance;
+    }
 
     public Observable<List<City>> fetchCities() {
         return apiInterface.cities()

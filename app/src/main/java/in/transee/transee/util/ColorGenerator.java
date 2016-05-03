@@ -5,9 +5,19 @@ import android.graphics.Color;
 /**
  * @author Michael Zhukov
  */
-public enum ColorGenerator {
+public class ColorGenerator {
 
-    INSTANCE;
+    private static ColorGenerator instance;
+
+    private ColorGenerator() {
+    }
+
+    public static ColorGenerator getInstance() {
+        if (instance == null) {
+            instance = new ColorGenerator();
+        }
+        return instance;
+    }
 
     public int fromString(String str) {
         String opacity = "#ff";

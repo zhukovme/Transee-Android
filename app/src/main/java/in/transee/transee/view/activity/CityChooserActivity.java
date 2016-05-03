@@ -38,7 +38,7 @@ public class CityChooserActivity extends AppCompatActivity {
     }
 
     private void startLoadingCities() {
-        Repository.INSTANCE.getCities()
+        Repository.getInstance().getCities()
                 .subscribe(
                         cities -> adapter.setData(cities),
                         throwable -> {

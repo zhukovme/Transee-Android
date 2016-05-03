@@ -20,11 +20,21 @@ import rx.android.schedulers.AndroidSchedulers;
 /**
  * @author Michael Zhukov
  */
-public enum Repository {
+public class Repository {
 
-    INSTANCE;
+    private static Repository instance = null;
 
     private DatabaseHelper database = DatabaseHelperFactory.getHelper();
+
+    private Repository() {
+    }
+
+    public static Repository getInstance() {
+        if (instance == null) {
+            instance = new Repository();
+        }
+        return instance;
+    }
 
     interface TransportType {
         String BUS = "autobus";
@@ -41,7 +51,7 @@ public enum Repository {
             return Observable.just(cities);
         }
 
-        return Fetcher.INSTANCE.fetchCities()
+        return Fetcher.getInstance().fetchCities()
                 .doOnNext(cityDao::addInTx)
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -56,7 +66,7 @@ public enum Repository {
             return Observable.just(transportsList);
         }
 
-        return Fetcher.INSTANCE.fetchTransports(city)
+        return Fetcher.getInstance().fetchTransports(city)
                 .flatMap(Observable::from)
                 .doOnNext(transports -> {
                     transportsDao.add(transports);
@@ -83,7 +93,7 @@ public enum Repository {
                             .map(items -> new Routes(route.getType(), items)))
                     .toList();
         } // TODO: 5/3/2016 build query for this
-        return Fetcher.INSTANCE.fetchRoutes(city)
+        return Fetcher.getInstance().fetchRoutes(city)
                 .flatMap(Observable::from)
                 .doOnNext(routes -> {
                     routesDao.add(routes);
@@ -121,6 +131,6 @@ public enum Repository {
         String[] minibuses = minibusesList != null ?
                 minibusesList.toArray(new String[minibusesList.size()]) : null;
 
-        return Fetcher.INSTANCE.fetchPositions(city, types, buses, trolleys, trams, minibuses);
+        return Fetcher.getInstance().fetchPositions(city, types, buses, trolleys, trams, minibuses);
     }
 }

@@ -77,7 +77,7 @@ public class TransportChooserActivity extends AppCompatActivity {
 
     private void startLoadingTransports() {
         List<RecyclerView> recyclerViews = new ArrayList<>();
-        Repository.INSTANCE.getTransports(currentCity.getId())
+        Repository.getInstance().getTransports(currentCity.getId())
                 .doOnNext(transportsList -> recyclerViews.addAll(setupRecyclerViews(transportsList)))
                 .flatMap(Observable::from)
                 .map(transports -> transports.getName(this))
