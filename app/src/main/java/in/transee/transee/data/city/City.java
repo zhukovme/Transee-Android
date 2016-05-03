@@ -20,12 +20,14 @@ public class City implements Serializable {
 
     @DatabaseField(canBeNull = false, dataType = DataType.STRING)
     private String id;
+
     @DatabaseField(canBeNull = false, dataType = DataType.DOUBLE)
     private double latitude;
+
     @DatabaseField(canBeNull = false, dataType = DataType.DOUBLE)
     private double longitude;
 
-    public City() {
+    City() {
     }
 
     public City(String id, double[] coordinates) {

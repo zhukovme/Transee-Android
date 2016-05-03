@@ -10,6 +10,8 @@ import in.transee.transee.data.transport.Transports;
 import in.transee.transee.database.DatabaseHelper;
 import in.transee.transee.database.DatabaseHelperFactory;
 import in.transee.transee.database.dao.CityDao;
+import in.transee.transee.database.dao.RouteItemDao;
+import in.transee.transee.database.dao.RoutesDao;
 import in.transee.transee.database.dao.TransportItemDao;
 import in.transee.transee.database.dao.TransportsDao;
 import rx.Observable;
@@ -65,11 +67,28 @@ public enum Repository {
     }
 
     public Observable<List<Routes>> getRoutes(String city, Map<String, List<String>> filter) {
-//        if (database.hasData()) {
-//            return database.data();
-//        } else
+        RoutesDao routesDao = database.getRoutesDao();
+        RouteItemDao routeItemDao = database.getRouteItemDao();
+
+        List<Routes> routesList = routesDao.getAll();
+
+        if (routesList != null && !routesList.isEmpty()) {
+            return Observable
+                    .from(routesList)
+                    .filter(route -> filter.containsKey(route.getType()))
+                    .flatMap(route -> Observable
+                            .from(route.getItems())
+                            .filter(item -> filter.get(route.getType()).contains(item.getId()))
+                            .toList()
+                            .map(items -> new Routes(route.getType(), items)))
+                    .toList();
+        } // TODO: 5/3/2016 build query for this
         return Fetcher.INSTANCE.fetchRoutes(city)
                 .flatMap(Observable::from)
+                .doOnNext(routes -> {
+                    routesDao.add(routes);
+                    routeItemDao.addInTx(routes.getItems(), routes);
+                })
                 .filter(route -> filter.containsKey(route.getType()))
                 .flatMap(route -> Observable
                         .from(route.getItems())

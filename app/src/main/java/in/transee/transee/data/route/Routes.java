@@ -1,20 +1,35 @@
 package in.transee.transee.data.route;
 
 import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * @author Michael Zhukov
  */
+@DatabaseTable(tableName = "routes")
 public class Routes {
 
-    @SerializedName("type")
-    private String type;
-    @SerializedName("items")
-    private List<RouteItem> items;
+    @DatabaseField(generatedId = true)
+    private int _id;
 
-    public Routes(String type, List<RouteItem> items) {
+    @SerializedName("type")
+    @DatabaseField(canBeNull = false)
+    private String type;
+
+    @SerializedName("items")
+    @ForeignCollectionField(eager = true)
+    private Collection<RouteItem> items;
+
+    Routes() {
+    }
+
+    public Routes(String type, Collection<RouteItem> items) {
         this.type = type;
         this.items = items;
     }
@@ -24,6 +39,6 @@ public class Routes {
     }
 
     public List<RouteItem> getItems() {
-        return items;
+        return new ArrayList<>(items);
     }
 }

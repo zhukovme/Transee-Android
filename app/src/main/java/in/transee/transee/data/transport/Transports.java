@@ -7,8 +7,9 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Michael Zhukov
@@ -30,10 +31,6 @@ public class Transports {
     Transports() {
     }
 
-    public Transports(String type) {
-        this.type = type;
-    }
-
     public Transports(String type, Collection<TransportItem> items) {
         this.type = type;
         this.items = items;
@@ -48,7 +45,7 @@ public class Transports {
         return type;
     }
 
-    public LinkedList<TransportItem> getItems() {
-        return new LinkedList<>(items);
+    public List<TransportItem> getItems() {
+        return new ArrayList<>(items);
     }
 }

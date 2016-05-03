@@ -10,9 +10,13 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 
 import in.transee.transee.data.city.City;
+import in.transee.transee.data.route.RouteItem;
+import in.transee.transee.data.route.Routes;
 import in.transee.transee.data.transport.TransportItem;
 import in.transee.transee.data.transport.Transports;
 import in.transee.transee.database.dao.CityDao;
+import in.transee.transee.database.dao.RouteItemDao;
+import in.transee.transee.database.dao.RoutesDao;
 import in.transee.transee.database.dao.TransportItemDao;
 import in.transee.transee.database.dao.TransportsDao;
 
@@ -28,6 +32,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private CityDao cityDao = null;
     private TransportsDao transportsDao = null;
     private TransportItemDao transportItemDao = null;
+    private RoutesDao routesDao = null;
+    private RouteItemDao routeItemDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,6 +45,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, City.class);
             TableUtils.createTable(connectionSource, Transports.class);
             TableUtils.createTable(connectionSource, TransportItem.class);
+            TableUtils.createTable(connectionSource, Routes.class);
+            TableUtils.createTable(connectionSource, RouteItem.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -51,6 +59,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, City.class, true);
             TableUtils.dropTable(connectionSource, Transports.class, true);
             TableUtils.dropTable(connectionSource, TransportItem.class, true);
+            TableUtils.dropTable(connectionSource, Routes.class, true);
+            TableUtils.dropTable(connectionSource, RouteItem.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,5 +98,26 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return transportItemDao;
+    }
+
+    public RoutesDao getRoutesDao() {
+        if (routesDao == null) {
+            try {
+                routesDao = new RoutesDao(getConnectionSource(), Routes.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return routesDao;
+    }
+    public RouteItemDao getRouteItemDao() {
+        if (routeItemDao == null) {
+            try {
+                routeItemDao = new RouteItemDao(getConnectionSource(), RouteItem.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return routeItemDao;
     }
 }
