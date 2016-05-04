@@ -1,7 +1,5 @@
 package in.transee.transee.util.drawer;
 
-import android.graphics.Color;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -10,6 +8,7 @@ import java.util.List;
 
 import in.transee.transee.data.route.RouteItem;
 import in.transee.transee.data.route.Routes;
+import in.transee.transee.util.ColorGenerator;
 
 /**
  * @author Michael Zhukov
@@ -20,6 +19,8 @@ public class RoutesDrawer {
 
     private GoogleMap googleMap;
 
+    private ColorGenerator colorGenerator = ColorGenerator.getInstance();
+
     public RoutesDrawer(GoogleMap googleMap) {
         this.googleMap = googleMap;
     }
@@ -29,7 +30,8 @@ public class RoutesDrawer {
             for (RouteItem item : routes.getItems()) {
                 PolylineOptions polylineOptions = new PolylineOptions();
                 for (LatLng latLng : item.getRoute()) {
-                    drawPolyline(polylineOptions, latLng, Color.RED);
+                    drawPolyline(polylineOptions, latLng,
+                            colorGenerator.fromString(item.getId() + routes.getType()));
                 }
             }
         }

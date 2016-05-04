@@ -20,10 +20,18 @@ public class ColorGenerator {
     }
 
     public int fromString(String str) {
-        String opacity = "#ff";
-        String hexColor = String.format(
-                opacity + "%06X", (0xeeeeee & str.hashCode()));
+        int hash = 0;
 
-        return Color.parseColor(hexColor);
+        for (byte b : str.getBytes()) {
+            hash = b + ((hash << 5) - hash);
+        }
+
+        StringBuilder color = new StringBuilder("#ff");
+        for (int i = 0; i < 3; i++) {
+            int value = (hash >> (i * 8)) & 0xFF;
+            String tmp = "00" + Integer.toHexString(value);
+            color.append(tmp.substring(tmp.length() - 2, tmp.length()));
+        }
+        return Color.parseColor(color.toString());
     }
 }

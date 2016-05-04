@@ -1,7 +1,6 @@
 package in.transee.transee.util.drawer;
 
 import android.content.Context;
-import android.graphics.Color;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -15,6 +14,7 @@ import java.util.List;
 import in.transee.transee.data.position.PositionItem;
 import in.transee.transee.data.position.Positions;
 import in.transee.transee.data.position.Vehicle;
+import in.transee.transee.util.ColorGenerator;
 import in.transee.transee.util.TransportIconGenerator;
 
 /**
@@ -29,7 +29,9 @@ public class PositionsDrawer {
 
     private Context context;
     private GoogleMap googleMap;
+
     private TransportIconGenerator transportIconGenerator;
+    private ColorGenerator colorGenerator = ColorGenerator.getInstance();
 
     public PositionsDrawer(Context context, GoogleMap googleMap) {
         this.context = context;
@@ -55,8 +57,11 @@ public class PositionsDrawer {
                             vehicle.getGosId(),
                             vehicle.getPosition(),
                             vehicle.getAngle(),
-                            transportIconGenerator.getIcon(item.getName(), Color.DKGRAY,
-                                    vehicle.getAngle()));
+                            transportIconGenerator.getIcon(
+                                    item.getName(),
+                                    colorGenerator.fromString(item.getId() + positions.getType()),
+                                    vehicle.getAngle()
+                            ));
                     markerList.add(marker);
                 }
             }
@@ -72,8 +77,11 @@ public class PositionsDrawer {
                             if (!marker.getPosition().equals(vehicle.getPosition())) {
                                 marker.setVisible(false);
                                 marker.setPosition(vehicle.getPosition());
-                                marker.setIcon(transportIconGenerator.getIcon(item.getName(),
-                                        Color.DKGRAY, vehicle.getAngle()));
+                                marker.setIcon(transportIconGenerator.getIcon(
+                                        item.getName(),
+                                        colorGenerator.fromString(item.getId() + positions.getType()),
+                                        vehicle.getAngle())
+                                );
                                 marker.setRotation(vehicle.getAngle());
                                 marker.setVisible(true);
                             }
