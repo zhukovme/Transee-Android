@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * @author Michael Zhukov
  */
-public interface View {
+public interface ViewMvp {
     void onError();
     Context getContext();
 }

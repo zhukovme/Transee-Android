@@ -24,12 +24,12 @@ import java.util.List;
 import in.transee.transee.R;
 import in.transee.transee.data.city.City;
 import in.transee.transee.presenter.MapPresenter;
+import in.transee.transee.view.ViewMvp;
 
 /**
  * @author Michael Zhukov
  */
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        in.transee.transee.view.View {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, ViewMvp {
 
     public static final String CURRENT_CITY_EXTRA = "current_city_extra";
 
@@ -122,7 +122,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mapPresenter.reset();
+        mapPresenter.clearAndUnsubscribe();
     }
 
     @Override

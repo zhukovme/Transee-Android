@@ -11,7 +11,7 @@ import in.transee.transee.api.Repository;
 import in.transee.transee.data.city.City;
 import in.transee.transee.util.drawer.PositionsDrawer;
 import in.transee.transee.util.drawer.RoutesDrawer;
-import in.transee.transee.view.View;
+import in.transee.transee.view.ViewMvp;
 import rx.Observable;
 import rx.Subscription;
 import rx.subscriptions.Subscriptions;
@@ -24,7 +24,7 @@ public class MapPresenter {
     private static final float DEFAULT_MAP_ZOOM = 12;
     private static final int POSITIONS_UPDATE_PERIOD = 15;
 
-    private View view;
+    private ViewMvp view;
     private GoogleMap googleMap;
     private City currentCity;
 
@@ -32,7 +32,7 @@ public class MapPresenter {
 
     private Subscription subscription = Subscriptions.empty();
 
-    public MapPresenter(View view, GoogleMap googleMap, City currentCity) {
+    public MapPresenter(ViewMvp view, GoogleMap googleMap, City currentCity) {
         this.view = view;
         this.googleMap = googleMap;
         this.currentCity = currentCity;
@@ -45,7 +45,7 @@ public class MapPresenter {
     }
 
     public void locateTransports(HashMap<String, List<String>> transportIds) {
-        reset();
+        clearAndUnsubscribe();
 
         RoutesDrawer routesDrawer = new RoutesDrawer(googleMap);
         Repository.getInstance()
@@ -68,7 +68,7 @@ public class MapPresenter {
                         });
     }
 
-    public void reset() {
+    public void clearAndUnsubscribe() {
         googleMap.clear();
         positionsDrawer.getMarkerList().clear();
         if (!subscription.isUnsubscribed()) {
