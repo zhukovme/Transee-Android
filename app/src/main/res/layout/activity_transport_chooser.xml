@@ -14,7 +14,7 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <include
                 android:id="@+id/toolbar"
@@ -55,7 +55,7 @@
         android:src="@drawable/ic_crosshairs_gps_white_24dp"
         app:layout_anchor="@id/pager"
         app:layout_anchorGravity="bottom|right|end"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/fab_margin"
         android:onClick="onFabLocateTransportClick"/>
 
 </android.support.design.widget.CoordinatorLayout>

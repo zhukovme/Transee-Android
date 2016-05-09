@@ -1,6 +1,11 @@
 package in.transee.transee.presenter;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import in.transee.transee.R;
 import in.transee.transee.api.Repository;
 import in.transee.transee.data.city.City;
-import in.transee.transee.ui.ViewMvp;
+import in.transee.transee.ui.activity.MapActivity;
 import in.transee.transee.util.drawer.PositionsDrawer;
 import in.transee.transee.util.drawer.RoutesDrawer;
 import rx.Observable;
@@ -27,7 +32,7 @@ public class MapPresenter {
     private static final float DEFAULT_MAP_ZOOM = 12;
     private static final int POSITIONS_UPDATE_PERIOD = 15;
 
-    private ViewMvp view;
+    private MapActivity activity;
     private GoogleMap googleMap;
     private City currentCity;
 
@@ -35,11 +40,11 @@ public class MapPresenter {
 
     private Subscription subscription = Subscriptions.empty();
 
-    public MapPresenter(ViewMvp view, GoogleMap googleMap, City currentCity) {
-        this.view = view;
+    public MapPresenter(MapActivity activity, GoogleMap googleMap, City currentCity) {
+        this.activity = activity;
         this.googleMap = googleMap;
         this.currentCity = currentCity;
-        positionsDrawer = new PositionsDrawer(view.getContext(), googleMap);
+        positionsDrawer = new PositionsDrawer(activity, googleMap);
     }
 
     public void setupCamera() {
@@ -48,8 +53,46 @@ public class MapPresenter {
     }
 
     public void setupButtons() {
+        googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
+    }
+
+    public void setupInfoWindowAdapter(BottomSheetBehavior bsTransportInfoBehavior,
+                                       FloatingActionButton fabMapMain) {
+
+        bsTransportInfoBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_EXPANDED:
+                        fabMapMain
+                                .setImageDrawable(ContextCompat.getDrawable(activity,
+                                        R.drawable.ic_star_outline_white_24dp));
+                        fabMapMain.setOnClickListener(v -> onFabAddToFavoriteClick(v));
+                        break;
+                    case BottomSheetBehavior.STATE_COLLAPSED:
+                        fabMapMain
+                                .setImageDrawable(ContextCompat.getDrawable(activity,
+                                        R.drawable.ic_map_marker_multiple_white_24dp));
+                        fabMapMain.setOnClickListener(activity::onFabChooseTransportClick);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
+        googleMap.setOnMarkerClickListener(marker -> {
+            marker.showInfoWindow();
+            bsTransportInfoBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            return true;
+        });
+    }
+
+    public void onFabAddToFavoriteClick(View view) {
+        // // TODO: 5/9/2016 add to favorite
     }
 
     public void locateTransports(HashMap<String, List<String>> transportIds) {
@@ -95,7 +138,7 @@ public class MapPresenter {
 
     private void onError(HashMap<String, List<String>> transportIds) {
         Snackbar
-                .make(view.getView(), R.string.error_msg, Snackbar.LENGTH_INDEFINITE)
+                .make(activity.getView(), R.string.error_msg, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_retry, v -> locateTransports(transportIds))
                 .show();
     }

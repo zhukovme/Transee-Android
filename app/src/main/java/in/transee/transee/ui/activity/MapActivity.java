@@ -1,8 +1,9 @@
 package in.transee.transee.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -24,18 +24,18 @@ import java.util.List;
 import in.transee.transee.R;
 import in.transee.transee.data.city.City;
 import in.transee.transee.presenter.MapPresenter;
-import in.transee.transee.ui.ViewMvp;
 
 /**
  * @author Michael Zhukov
  */
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, ViewMvp {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String CURRENT_CITY_EXTRA = "current_city_extra";
     public static final int TRANSPORT_CHOOSER_REQUEST = 1;
 
     private DrawerLayout drawer;
-    private FloatingActionsMenu fam;
+    private FloatingActionButton fabMapMain;
+    private BottomSheetBehavior bsTransportInfoBehavior;
 
     private City currentCity;
     private MapPresenter mapPresenter;
@@ -62,7 +62,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawer.setDrawerShadow(R.drawable.drawer_dropshadow, GravityCompat.START);
         toggle.syncState();
 
-        fam = (FloatingActionsMenu) findViewById(R.id.fam);
+        fabMapMain = (FloatingActionButton) findViewById(R.id.fab_map_main);
+
+        View bsTransportInfo = findViewById(R.id.bs_transport_info);
+        bsTransportInfoBehavior = BottomSheetBehavior.from(bsTransportInfo);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapPresenter.clearAndUnsubscribe();
     }
 
     @Override
@@ -79,25 +88,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    public void onFabScheduleClick(View view) {
-        Snackbar.make(fam, "Schedule", Snackbar.LENGTH_LONG).show();
-        fam.collapse();
-    }
-
-    public void onFabNextToMeClick(View view) {
-        Snackbar.make(fam, "Next To Me", Snackbar.LENGTH_LONG).show();
-        fam.collapse();
-    }
-
-    public void onFabShowSeveralClick(View view) {
-        Intent intent = new Intent(view.getContext(), TransportChooserActivity.class);
-        intent.putExtra(CURRENT_CITY_EXTRA, currentCity);
-        startActivityForResult(intent, TRANSPORT_CHOOSER_REQUEST);
-        fam.collapse();
+    public void onFabChooseTransportClick(View view) {
+        Intent intent = new Intent(this, TransportChooserActivity.class);
+        intent.putExtra(MapActivity.CURRENT_CITY_EXTRA, currentCity);
+        startActivityForResult(intent, MapActivity.TRANSPORT_CHOOSER_REQUEST);
     }
 
     public void onSettingsClick(View view) {
-        Snackbar.make(fam, "Settings", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(fabMapMain, "Settings", Snackbar.LENGTH_LONG).show();
         onBackPressed();
     }
 
@@ -107,20 +105,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         finish();
     }
 
-    @Override
     public View getView() {
-        return fam;
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mapPresenter.clearAndUnsubscribe();
+        return fabMapMain;
     }
 
     @Override
@@ -152,5 +138,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapPresenter = new MapPresenter(this, googleMap, currentCity);
         mapPresenter.setupCamera();
         mapPresenter.setupButtons();
+        mapPresenter.setupInfoWindowAdapter(bsTransportInfoBehavior, fabMapMain);
     }
 }
