@@ -1,5 +1,7 @@
 package in.transee.transee.presenter;
 
+import android.support.design.widget.Snackbar;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 
@@ -7,11 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import in.transee.transee.R;
 import in.transee.transee.api.Repository;
 import in.transee.transee.data.city.City;
+import in.transee.transee.ui.ViewMvp;
 import in.transee.transee.util.drawer.PositionsDrawer;
 import in.transee.transee.util.drawer.RoutesDrawer;
-import in.transee.transee.view.ViewMvp;
 import rx.Observable;
 import rx.Subscription;
 import rx.subscriptions.Subscriptions;
@@ -39,33 +42,20 @@ public class MapPresenter {
         positionsDrawer = new PositionsDrawer(view.getContext(), googleMap);
     }
 
-    public void setupMapCamera() {
+    public void setupCamera() {
         googleMap.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(currentCity.getCoordinates(), DEFAULT_MAP_ZOOM));
     }
 
+    public void setupButtons() {
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+    }
+
     public void locateTransports(HashMap<String, List<String>> transportIds) {
         clearAndUnsubscribe();
-
-        RoutesDrawer routesDrawer = new RoutesDrawer(googleMap);
-        Repository.getInstance()
-                .getRoutes(currentCity.getId(), transportIds)
-                .subscribe(
-                        routesDrawer::draw,
-                        throwable -> {
-                            view.onError();
-                            throwable.printStackTrace();
-                        });
-
-        subscription = Observable.interval(0, POSITIONS_UPDATE_PERIOD, TimeUnit.SECONDS)
-                .flatMap((tick) -> Repository.getInstance()
-                        .getPositions(currentCity.getId(), transportIds))
-                .subscribe(
-                        positionsDrawer::draw,
-                        throwable -> {
-                            view.onError();
-                            throwable.printStackTrace();
-                        });
+        loadAndDrawRoutes(transportIds);
+        loadAndDrawPositions(transportIds);
     }
 
     public void clearAndUnsubscribe() {
@@ -74,5 +64,39 @@ public class MapPresenter {
         if (!subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
+    }
+
+    private void loadAndDrawRoutes(HashMap<String, List<String>> transportIds) {
+        RoutesDrawer routesDrawer = new RoutesDrawer(googleMap);
+        Repository
+                .getInstance()
+                .getRoutes(currentCity.getId(), transportIds)
+                .subscribe(
+                        routesDrawer::draw,
+                        throwable -> {
+                            onError(transportIds);
+                            throwable.printStackTrace();
+                        });
+    }
+
+    private void loadAndDrawPositions(HashMap<String, List<String>> transportIds) {
+        subscription = Observable
+                .interval(0, POSITIONS_UPDATE_PERIOD, TimeUnit.SECONDS)
+                .flatMap((tick) -> Repository
+                        .getInstance()
+                        .getPositions(currentCity.getId(), transportIds))
+                .subscribe(
+                        positionsDrawer::draw,
+                        throwable -> {
+                            onError(transportIds);
+                            throwable.printStackTrace();
+                        });
+    }
+
+    private void onError(HashMap<String, List<String>> transportIds) {
+        Snackbar
+                .make(view.getView(), R.string.error_msg, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.action_retry, v -> locateTransports(transportIds))
+                .show();
     }
 }

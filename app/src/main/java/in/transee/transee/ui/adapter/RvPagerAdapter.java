@@ -1,4 +1,4 @@
-package in.transee.transee.view.adapter;
+package in.transee.transee.ui.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;

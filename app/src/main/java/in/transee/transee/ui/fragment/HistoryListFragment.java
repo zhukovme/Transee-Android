@@ -1,4 +1,4 @@
-package in.transee.transee.view.fragment;
+package in.transee.transee.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -17,7 +17,7 @@ import in.transee.transee.R;
  */
 public class HistoryListFragment extends ListFragment {
 
-    String[] testStrings = new String[] {"47 маршрутное такси", "ул. Рыкачева", "72 автобус", "┻━┻ ヘ╰( •̀ε•́ ╰)"};
+    String[] testStrings = new String[] {"47 маршрутное такси", "ул. Рыкачева", "72 автобус"};
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

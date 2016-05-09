@@ -1,4 +1,4 @@
-package in.transee.transee.view.activity;
+package in.transee.transee.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,8 +25,8 @@ import in.transee.transee.data.transport.TransportItem;
 import in.transee.transee.data.transport.Transports;
 import in.transee.transee.data.transportListItem.TransportChooserObservable;
 import in.transee.transee.data.transportListItem.TransportListItem;
-import in.transee.transee.view.adapter.RvPagerAdapter;
-import in.transee.transee.view.adapter.TransportChooserRvAdapter;
+import in.transee.transee.ui.adapter.RvPagerAdapter;
+import in.transee.transee.ui.adapter.TransportChooserRvAdapter;
 import rx.Observable;
 
 /**
@@ -97,9 +97,9 @@ public class TransportChooserActivity extends AppCompatActivity {
 
     private void onError() {
         Snackbar
-                .make(progressBar, getString(R.string.error_msg_snackbar),
+                .make(progressBar, getString(R.string.error_msg),
                         Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.retry_snack_action, v -> {
+                .setAction(R.string.action_retry, v -> {
                     startLoadingTransports();
                 })
                 .show();

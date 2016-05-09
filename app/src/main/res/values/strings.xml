@@ -4,8 +4,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_search">Search</string>
     <string name="app_short_info">App for tracking public transport</string>
+    <string name="action_search">Search</string>
+    <string name="action_retry">Retry</string>
     <string name="nav_history_title">History</string>
     <string name="nav_settings_title">Settings</string>
     <string name="nav_change_city_title">Change city</string>
@@ -14,8 +15,7 @@
     <string name="fab_schedule">Schedule</string>
     <string name="fab_next_to_me">Next to me</string>
     <string name="fab_show_several">Show several transports</string>
-    <string name="error_msg_snackbar">Something went wrong</string>
-    <string name="retry_snack_action">RETRY</string>
+    <string name="error_msg">Something went wrong</string>
 
     <string name="astrakhan">Astrakhan</string>
     <string name="barnaul">Barnaul</string>

@@ -1,4 +1,4 @@
-package in.transee.transee.view.adapter;
+package in.transee.transee.ui.adapter;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import in.transee.transee.R;
 import in.transee.transee.data.city.City;
-import in.transee.transee.view.activity.MapActivity;
+import in.transee.transee.ui.activity.MapActivity;
 
 /**
  * @author Michael Zhukov

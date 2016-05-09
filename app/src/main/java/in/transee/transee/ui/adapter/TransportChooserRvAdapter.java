@@ -1,4 +1,4 @@
-package in.transee.transee.view.adapter;
+package in.transee.transee.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +12,8 @@ import com.bignerdranch.android.multiselector.SwappingHolder;
 import java.util.List;
 
 import in.transee.transee.R;
-import in.transee.transee.data.transportListItem.TransportListItem;
 import in.transee.transee.data.transportListItem.TransportChooserObservable;
+import in.transee.transee.data.transportListItem.TransportListItem;
 
 /**
  * @author Michael Zhukov

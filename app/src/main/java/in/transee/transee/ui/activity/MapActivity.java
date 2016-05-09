@@ -1,4 +1,4 @@
-package in.transee.transee.view.activity;
+package in.transee.transee.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +24,7 @@ import java.util.List;
 import in.transee.transee.R;
 import in.transee.transee.data.city.City;
 import in.transee.transee.presenter.MapPresenter;
-import in.transee.transee.view.ViewMvp;
+import in.transee.transee.ui.ViewMvp;
 
 /**
  * @author Michael Zhukov
@@ -32,7 +32,6 @@ import in.transee.transee.view.ViewMvp;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, ViewMvp {
 
     public static final String CURRENT_CITY_EXTRA = "current_city_extra";
-
     public static final int TRANSPORT_CHOOSER_REQUEST = 1;
 
     private DrawerLayout drawer;
@@ -75,6 +74,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             data.getSerializableExtra(
                                     TransportChooserActivity.SELECTED_TRANSPORT_EXTRA);
                     mapPresenter.locateTransports(selectedTransport);
+                    mapPresenter.setupCamera();
                 }
         }
     }
@@ -108,10 +108,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onError() {
-        Snackbar
-                .make(fam, getString(R.string.error_msg_snackbar), Snackbar.LENGTH_LONG)
-                .show();
+    public View getView() {
+        return fam;
     }
 
     @Override
@@ -152,6 +150,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapPresenter = new MapPresenter(this, googleMap, currentCity);
-        mapPresenter.setupMapCamera();
+        mapPresenter.setupCamera();
+        mapPresenter.setupButtons();
     }
 }

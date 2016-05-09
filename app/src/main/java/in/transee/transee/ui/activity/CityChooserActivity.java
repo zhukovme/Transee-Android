@@ -1,4 +1,4 @@
-package in.transee.transee.view.activity;
+package in.transee.transee.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 
 import in.transee.transee.R;
 import in.transee.transee.api.Repository;
-import in.transee.transee.view.adapter.CityChooserRvAdapter;
+import in.transee.transee.ui.adapter.CityChooserRvAdapter;
 
 /**
  * @author Michael Zhukov
@@ -50,8 +50,8 @@ public class CityChooserActivity extends AppCompatActivity {
 
     private void onError() {
         Snackbar
-                .make(rvCities, getString(R.string.error_msg_snackbar), Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.retry_snack_action, v -> {
+                .make(rvCities, getString(R.string.error_msg), Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.action_retry, v -> {
                     startLoadingCities();
                 })
                 .show();
