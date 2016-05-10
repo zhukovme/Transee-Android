@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,8 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
-
-import com.astuetz.PagerSlidingTabStrip;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +36,7 @@ public class TransportChooserActivity extends AppCompatActivity {
     public static final String SELECTED_TRANSPORT_EXTRA = "selected_transport_extra";
 
     private ViewPager viewPager;
-    private PagerSlidingTabStrip tabs;
+    private TabLayout tlTransportChooser;
     private ProgressBar progressBar;
 
     private TransportChooserObservable transportChooserObservable;
@@ -56,7 +55,7 @@ public class TransportChooserActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tlTransportChooser = (TabLayout) findViewById(R.id.tl_transport_chooser);
         progressBar = (ProgressBar) findViewById(R.id.pb_transport_chooser);
         FloatingActionButton fabLocateTransport = (FloatingActionButton)
                 findViewById(R.id.fab_locate_transport);
@@ -107,7 +106,7 @@ public class TransportChooserActivity extends AppCompatActivity {
 
     private void setupTabs(List<RecyclerView> pages, List<String> tabTitles) {
         viewPager.setAdapter(new RvPagerAdapter(pages, tabTitles));
-        tabs.setViewPager(viewPager);
+        tlTransportChooser.setupWithViewPager(viewPager);
     }
 
     private List<RecyclerView> setupRecyclerViews(List<Transports> transportsList) {

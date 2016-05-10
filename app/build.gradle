@@ -36,7 +36,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.3.0'
 
     // Other UI dependencies
-    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.bignerdranch.android:recyclerview-multiselect:0.2'
 
     // Google
