@@ -1,9 +1,13 @@
 package in.transee.transee.ui.adapter;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bignerdranch.android.multiselector.MultiSelector;
@@ -15,17 +19,24 @@ import in.transee.transee.R;
 import in.transee.transee.data.transportListItem.TransportChooserObservable;
 import in.transee.transee.data.transportListItem.TransportListItem;
 
+import static in.transee.transee.api.Repository.TransportType.BUS;
+import static in.transee.transee.api.Repository.TransportType.MINIBUS;
+import static in.transee.transee.api.Repository.TransportType.TRAM;
+import static in.transee.transee.api.Repository.TransportType.TROLLEY;
+
 /**
  * @author Michael Zhukov
  */
 public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportChooserRvAdapter.ItemHolder> {
 
+    private Context context;
     private List<TransportListItem> transportItems;
     private TransportChooserObservable transportChooserObservable;
     private MultiSelector multiSelector;
 
-    public TransportChooserRvAdapter(List<TransportListItem> transportItems,
+    public TransportChooserRvAdapter(Context context, List<TransportListItem> transportItems,
                                      TransportChooserObservable transportChooserObservable) {
+        this.context = context;
         this.transportItems = transportItems;
         this.transportChooserObservable = transportChooserObservable;
         multiSelector = new MultiSelector();
@@ -43,6 +54,26 @@ public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportCho
     @Override
     public void onBindViewHolder(ItemHolder holder, int position) {
         TransportListItem transportItem = transportItems.get(position);
+        Drawable icon;
+        switch (transportItem.getType()) {
+            case BUS:
+                icon = ContextCompat.getDrawable(context, R.drawable.ic_bus_grey600_24dp);
+                break;
+            case TROLLEY:
+                icon = ContextCompat.getDrawable(context, R.drawable.ic_bus_grey600_24dp);
+                break;
+            case TRAM:
+                icon = ContextCompat.getDrawable(context, R.drawable.ic_tram_grey600_24dp);
+                break;
+            case MINIBUS:
+                icon = ContextCompat.getDrawable(context, R.drawable.ic_bus_grey600_24dp);
+                break;
+            default:
+                icon = ContextCompat.getDrawable(context, R.drawable.ic_bus_grey600_24dp);
+                break;
+        }
+        // TODO: 10.05.2016 make icons for trolley and minibus
+        holder.transportIcon.setImageDrawable(icon);
         holder.transportName.setText(transportItem.getName());
     }
 
@@ -53,11 +84,13 @@ public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportCho
 
     class ItemHolder extends SwappingHolder implements View.OnClickListener {
 
+        private ImageView transportIcon;
         private TextView transportName;
 
         public ItemHolder(View itemView, MultiSelector multiSelector) {
             super(itemView, multiSelector);
             itemView.setOnClickListener(this);
+            transportIcon = (ImageView) itemView.findViewById(R.id.iv_transport_icon);
             transportName = (TextView) itemView.findViewById(R.id.tv_transport_name);
         }
 

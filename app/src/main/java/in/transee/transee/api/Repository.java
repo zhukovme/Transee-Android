@@ -34,7 +34,7 @@ public class Repository {
         return instance;
     }
 
-    interface TransportType {
+    public interface TransportType {
         String BUS = "autobus";
         String TROLLEY = "trolleybus";
         String TRAM = "tram";

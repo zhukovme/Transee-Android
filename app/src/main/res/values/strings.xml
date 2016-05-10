@@ -27,7 +27,7 @@
     <string name="yaroslavl">Yaroslavl</string>
 
     <string name="autobus">Bus</string>
-    <string name="trolleybus">Trolley</string>
+    <string name="trolleybus">Trolleybus</string>
     <string name="tram">Tram</string>
-    <string name="minibus_taxi">Shuttle bus</string>
+    <string name="minibus_taxi">Minibus taxi</string>
 </resources>

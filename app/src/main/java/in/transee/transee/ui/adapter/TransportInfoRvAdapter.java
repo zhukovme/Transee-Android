@@ -11,11 +11,11 @@ import in.transee.transee.data.transport.info.TransportInfo;
 /**
  * @author Michael Zhukov
  */
-public class RvTransportInfoAdapter extends RecyclerView.Adapter<RvTransportInfoAdapter.ViewHolder> {
+public class TransportInfoRvAdapter extends RecyclerView.Adapter<TransportInfoRvAdapter.ViewHolder> {
 
     private List<TransportInfo> transportInfoList;
 
-    public RvTransportInfoAdapter(List<TransportInfo> transportInfoList) {
+    public TransportInfoRvAdapter(List<TransportInfo> transportInfoList) {
         this.transportInfoList = transportInfoList;
     }
 

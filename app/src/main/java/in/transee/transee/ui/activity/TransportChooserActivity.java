@@ -114,8 +114,7 @@ public class TransportChooserActivity extends AppCompatActivity {
         List<RecyclerView> rvList = new ArrayList<>();
         for (Transports type : transportsList) {
             RecyclerView rv = new RecyclerView(this);
-            rv.setAdapter(new TransportChooserRvAdapter(
-                    setupTransportList(type),
+            rv.setAdapter(new TransportChooserRvAdapter(this, setupTransportList(type),
                     transportChooserObservable));
             rv.setLayoutManager(new LinearLayoutManager(this));
             rv.setTag(type.getType());
