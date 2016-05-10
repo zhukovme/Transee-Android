@@ -60,19 +60,18 @@ public class TransportChooserRvAdapter extends RecyclerView.Adapter<TransportCho
                 icon = ContextCompat.getDrawable(context, R.drawable.ic_bus_grey600_24dp);
                 break;
             case TROLLEY:
-                icon = ContextCompat.getDrawable(context, R.drawable.ic_bus_grey600_24dp);
+                icon = ContextCompat.getDrawable(context, R.drawable.ic_trolleybus_grey);
                 break;
             case TRAM:
                 icon = ContextCompat.getDrawable(context, R.drawable.ic_tram_grey600_24dp);
                 break;
             case MINIBUS:
-                icon = ContextCompat.getDrawable(context, R.drawable.ic_bus_grey600_24dp);
+                icon = ContextCompat.getDrawable(context, R.drawable.ic_minibus_taxi_grey);
                 break;
             default:
                 icon = ContextCompat.getDrawable(context, R.drawable.ic_bus_grey600_24dp);
                 break;
         }
-        // TODO: 10.05.2016 make icons for trolley and minibus
         holder.transportIcon.setImageDrawable(icon);
         holder.transportName.setText(transportItem.getName());
     }
