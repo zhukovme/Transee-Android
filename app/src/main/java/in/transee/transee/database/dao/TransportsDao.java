@@ -27,10 +27,10 @@ public class TransportsDao extends BaseDaoImpl<Transports, Integer> {
         }
     }
 
-    public List<Transports> getAll() {
+    public List<Transports> getAll(String city) {
         List<Transports> transportsList = null;
         try {
-            transportsList = this.queryForAll();
+            transportsList = this.queryForEq(Transports.CITY_FIELD_NAME, city);
         } catch (SQLException e) {
             e.printStackTrace();
         }

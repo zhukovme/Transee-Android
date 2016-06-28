@@ -10,11 +10,13 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 
 import in.transee.transee.data.city.City;
+import in.transee.transee.data.favorite.Favorite;
 import in.transee.transee.data.route.RouteItem;
 import in.transee.transee.data.route.Routes;
 import in.transee.transee.data.transport.TransportItem;
 import in.transee.transee.data.transport.Transports;
 import in.transee.transee.database.dao.CityDao;
+import in.transee.transee.database.dao.FavoriteDao;
 import in.transee.transee.database.dao.RouteItemDao;
 import in.transee.transee.database.dao.RoutesDao;
 import in.transee.transee.database.dao.TransportItemDao;
@@ -34,6 +36,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private TransportItemDao transportItemDao = null;
     private RoutesDao routesDao = null;
     private RouteItemDao routeItemDao = null;
+    private FavoriteDao favoriteDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,6 +50,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, TransportItem.class);
             TableUtils.createTable(connectionSource, Routes.class);
             TableUtils.createTable(connectionSource, RouteItem.class);
+            TableUtils.createTable(connectionSource, Favorite.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,6 +65,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, TransportItem.class, true);
             TableUtils.dropTable(connectionSource, Routes.class, true);
             TableUtils.dropTable(connectionSource, RouteItem.class, true);
+            TableUtils.dropTable(connectionSource, Favorite.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -119,5 +124,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return routeItemDao;
+    }
+
+    public FavoriteDao getFavoriteDao() {
+        if (favoriteDao == null) {
+            try {
+                favoriteDao = new FavoriteDao(getConnectionSource(), Favorite.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return favoriteDao;
     }
 }

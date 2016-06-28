@@ -3,35 +3,39 @@ package in.transee.transee.api;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import in.transee.transee.data.city.City;
+import in.transee.transee.data.favorite.Favorite;
 import in.transee.transee.data.position.Positions;
 import in.transee.transee.data.route.Routes;
 import in.transee.transee.data.transport.Transports;
+import in.transee.transee.data.transport.info.TransportInfo;
 import in.transee.transee.database.DatabaseHelper;
-import in.transee.transee.database.DatabaseHelperFactory;
 import in.transee.transee.database.dao.CityDao;
+import in.transee.transee.database.dao.FavoriteDao;
 import in.transee.transee.database.dao.TransportItemDao;
 import in.transee.transee.database.dao.TransportsDao;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * @author Michael Zhukov
  */
 public class Repository {
 
-    private static Repository instance = null;
+    private final ApiInterface apiInterface;
+    private CityDao cityDao;
+    private TransportsDao transportsDao;
+    private TransportItemDao transportItemDao;
+    private FavoriteDao favoriteDao;
 
-    private DatabaseHelper database = DatabaseHelperFactory.getHelper();
-
-    private Repository() {
-    }
-
-    public static Repository getInstance() {
-        if (instance == null) {
-            instance = new Repository();
-        }
-        return instance;
+    @Inject
+    public Repository(ApiInterface apiInterface, DatabaseHelper database) {
+        this.apiInterface = apiInterface;
+        this.cityDao = database.getCityDao();
+        this.transportsDao = database.getTransportsDao();
+        this.transportItemDao = database.getTransportItemDao();
+        this.favoriteDao = database.getFavoriteDao();
     }
 
     public interface TransportType {
@@ -42,36 +46,34 @@ public class Repository {
     }
 
     public Observable<List<City>> getCities() {
-        CityDao cityDao = database.getCityDao();
-
         List<City> cities = cityDao.getAll();
         if (cities != null && !cities.isEmpty()) {
             return Observable.just(cities);
         }
-
-        return Fetcher.getInstance().fetchCities()
-                .doOnNext(cityDao::addInTx)
-                .observeOn(AndroidSchedulers.mainThread());
+        return apiInterface.cities()
+                .flatMap(Observable::from)
+                .flatMap(city -> apiInterface
+                        .citiesCoordinates(city)
+                        .map(coordinates -> new City(city, coordinates)))
+                .toList()
+                .doOnNext(cityDao::addInTx);
     }
 
     public Observable<List<Transports>> getTransports(String city) {
-        TransportsDao transportsDao = database.getTransportsDao();
-        TransportItemDao transportItemDao = database.getTransportItemDao();
-
-        List<Transports> transportsList = transportsDao.getAll();
+        List<Transports> transportsList = transportsDao.getAll(city);
 
         if (transportsList != null && !transportsList.isEmpty()) {
             return Observable.just(transportsList);
         }
 
-        return Fetcher.getInstance().fetchTransports(city)
+        return apiInterface.transports(city)
                 .flatMap(Observable::from)
                 .doOnNext(transports -> {
+                    transports.setCity(city);
                     transportsDao.add(transports);
                     transportItemDao.addInTx(transports.getItems(), transports);
                 })
-                .toList()
-                .observeOn(AndroidSchedulers.mainThread());
+                .toList();
     }
 
     public Observable<List<Routes>> getRoutes(String city, Map<String, List<String>> filter) {
@@ -91,9 +93,10 @@ public class Repository {
 //                            .map(items -> new Routes(route.getType(), items)))
 //                    .toList();
 //        } // TODO: 5/3/2016 build query for this
-        return Fetcher.getInstance().fetchRoutes(city)
+        return apiInterface.routes(city)
                 .flatMap(Observable::from)
 //                .doOnNext(routes -> {
+//                    routes.setCity(city);
 //                    routesDao.add(routes);
 //                    routeItemDao.addInTx(routes.getItems(), routes);
 //                })
@@ -103,12 +106,10 @@ public class Repository {
                         .filter(item -> filter.get(route.getType()).contains(item.getId()))
                         .toList()
                         .map(items -> new Routes(route.getType(), items)))
-                .toList()
-                .observeOn(AndroidSchedulers.mainThread());
+                .toList();
     }
 
-    public Observable<List<Positions>> getPositions(String city,
-                                                    Map<String, List<String>> filter) {
+    public Observable<List<Positions>> getPositions(String city, Map<String, List<String>> filter) {
 
         String[] types = filter.keySet().toArray(new String[filter.keySet().size()]);
 
@@ -129,6 +130,36 @@ public class Repository {
         String[] minibuses = minibusesList != null ?
                 minibusesList.toArray(new String[minibusesList.size()]) : null;
 
-        return Fetcher.getInstance().fetchPositions(city, types, buses, trolleys, trams, minibuses);
+        return apiInterface.positions(city, types, buses, trolleys, trams, minibuses);
+    }
+
+    public Observable<List<TransportInfo>> getTransportInfo(String city, String type, String gosId) {
+        return apiInterface.transportInfo(city, type, gosId);
+    }
+
+    public Observable<List<Favorite>> getFavorites(String city) {
+        List<Favorite> favorites = favoriteDao.getAll(city);
+
+        if (favorites != null && !favorites.isEmpty()) {
+            return Observable
+                    .just(favorites);
+        }
+        return Observable.empty();
+    }
+
+    public boolean isFavorite(String city, String name) {
+        return favoriteDao.isFavorite(city, name);
+    }
+
+    public void addToFavorite(Favorite favorite) {
+        favoriteDao.add(favorite);
+    }
+
+    public void deleteFromFavorite(String city, String name) {
+        favoriteDao.deleteItem(city, name);
+    }
+
+    public void deleteAllFromFavorite() {
+        favoriteDao.deleteAll();
     }
 }

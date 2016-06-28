@@ -12,10 +12,8 @@
     <string name="nav_change_city_title">Change city</string>
     <string name="choose_city_title">Choose city</string>
     <string name="loading_message">Loading</string>
-    <string name="fab_schedule">Schedule</string>
-    <string name="fab_next_to_me">Next to me</string>
-    <string name="fab_show_several">Show several transports</string>
     <string name="error_msg">Something went wrong</string>
+    <string name="empty_msg">Nothing here</string>
 
     <string name="astrakhan">Astrakhan</string>
     <string name="barnaul">Barnaul</string>

@@ -15,8 +15,13 @@ import java.util.List;
 @DatabaseTable(tableName = "routes")
 public class Routes {
 
+    public static final String CITY_FIELD_NAME = "city";
+
     @DatabaseField(generatedId = true)
     private int _id;
+
+    @DatabaseField(canBeNull = false)
+    private String city;
 
     @SerializedName("type")
     @DatabaseField(canBeNull = false)
@@ -40,5 +45,13 @@ public class Routes {
 
     public List<RouteItem> getItems() {
         return new ArrayList<>(items);
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

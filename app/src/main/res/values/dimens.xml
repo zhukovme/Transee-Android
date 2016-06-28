@@ -5,4 +5,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="choose_city_title_size">24sp</dimen>
+    <dimen name="bottom_sheet_height">400dp</dimen>
+    <dimen name="bottom_sheet_header">80dp</dimen>
 </resources>

@@ -3,22 +3,24 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@color/backgroundDefault">
 
-    <TextView
-        android:id="@+id/tv_choose_city"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/choose_city_title"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/choose_city_title_size"
-        android:textColor="@android:color/white"/>
+        android:id="@+id/app_bar">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_cities"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tv_choose_city"/>
+        android:layout_below="@id/app_bar"/>
 
     <ProgressBar
         android:id="@+id/pb_city_chooser"

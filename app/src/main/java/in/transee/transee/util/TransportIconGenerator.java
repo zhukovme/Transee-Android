@@ -83,7 +83,7 @@ public class TransportIconGenerator {
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setTextAlign(Paint.Align.CENTER);
         if (text.length() >= maxTextLength) {
-            paint.setTextSize(textSize - 5);
+            paint.setTextSize((float) (textSize - 5));
         } else {
             paint.setTextSize(textSize);
         }

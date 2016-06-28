@@ -1,5 +1,8 @@
 package in.transee.transee.api;
 
+import in.transee.transee.BuildConfig;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -10,11 +13,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ApiModule {
 
-    private static final String BASE_URL = "http://178.62.248.26";
+    private ApiModule() {
+    }
 
     public static ApiInterface getApiInterface() {
-        return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+        Retrofit.Builder builder = new Retrofit.Builder();
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(logging)
+                    .build();
+            builder.client(client);
+        }
+        return builder
+                .baseUrl(BuildConfig.TRANSEE_API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build()

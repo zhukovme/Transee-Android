@@ -20,7 +20,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui.activity.CityChooserActivity"
+            android:name=".ui.main.city_chooser.CityChooserActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
@@ -31,13 +31,13 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.MapActivity"
+            android:name=".ui.main.map.MapActivity"
             android:theme="@style/AppTheme.Default"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui.activity.TransportChooserActivity"
+            android:name=".ui.main.transport_chooser.TransportChooserActivity"
             android:theme="@style/AppTheme.Default"
             android:screenOrientation="portrait"/>
 

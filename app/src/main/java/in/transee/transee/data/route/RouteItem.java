@@ -32,22 +32,22 @@ public class RouteItem {
     RouteItem() {
     }
 
-    public RouteItem(String id, ArrayList<double[]> route) {
+    public RouteItem(String id, List<double[]> route) {
         this.id = id;
-        this.route = route;
+        this.route = new ArrayList<>(route);
     }
 
-    public RouteItem(Routes routes, String id, ArrayList<double[]> route) {
+    public RouteItem(Routes routes, String id, List<double[]> route) {
         this.routes = routes;
         this.id = id;
-        this.route = route;
+        this.route = new ArrayList<>(route);
     }
 
     public String getId() {
         return id;
     }
 
-    public ArrayList<double[]> getRouteDouble() {
+    public List<double[]> getRouteDouble() {
         return route;
     }
 

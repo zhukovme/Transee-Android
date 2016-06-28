@@ -7,9 +7,8 @@
     <string name="nav_change_city_title">Сменить город</string>
     <string name="choose_city_title">Выберите город</string>
     <string name="loading_message">Загрузка</string>
-    <string name="fab_schedule">Расписание</string>
-    <string name="fab_next_to_me">Рядом со мной</string>
-    <string name="fab_show_several">Показать несколько транспортов</string>
+    <string name="error_msg">Что-то пошло не так</string>
+    <string name="empty_msg">Здесь пусто</string>
 
     <string name="astrakhan">Астрахань</string>
     <string name="barnaul">Барнаул</string>

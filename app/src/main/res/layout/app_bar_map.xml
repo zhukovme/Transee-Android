@@ -37,13 +37,11 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_map_main"
+        android:id="@+id/fab_choose_transport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_map_marker_multiple_white_24dp"
-        app:layout_anchor="@id/bs_transport_info"
-        app:layout_anchorGravity="top|right|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:onClick="onFabChooseTransportClick"/>
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"/>
 
 </android.support.design.widget.CoordinatorLayout>
