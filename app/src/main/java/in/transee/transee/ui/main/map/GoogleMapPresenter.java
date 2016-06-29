@@ -106,8 +106,8 @@ public class GoogleMapPresenter extends BasePresenter<MapMvpView> {
             for (PositionItem item : positions.getItems()) {
                 for (Vehicle vehicle : item.getVehicles()) {
                     Marker marker = drawMarker(
-                            positions.getName(context) + " № " + item.getName(),
-                            positions.getType() + "/" + vehicle.getGosId(),
+                            positions.getName(context) + " " + item.getName(),
+                            positions.getType() + "/" + vehicle.getGosId() + "/" + item.getId(),
                             vehicle.getPosition(),
                             vehicle.getAngle(),
                             transportIconGenerator.getIcon(

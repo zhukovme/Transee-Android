@@ -20,8 +20,8 @@
         android:background="@color/backgroundDefault">
 
         <include
-            layout="@layout/nav_footer_main"
             android:id="@+id/nav_footer"
+            layout="@layout/nav_footer_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"/>
@@ -33,12 +33,23 @@
             android:background="@color/dividerColor"
             android:layout_above="@id/nav_footer"/>
 
-        <fragment
-            android:id="@+id/lv_history"
-            android:name="in.transee.transee.ui.main.map.HistoryListFragment"
+        <include
+            android:id="@+id/nav_header_main"
+            layout="@layout/nav_header_main" />
+
+        <include
+            android:id="@+id/header_favorites_list"
+            layout="@layout/header_favorites_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nav_header_main"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_favorites"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/divider"/>
+            android:layout_below="@id/header_favorites_list"
+            android:layout_above="@id/nav_footer"/>
 
     </RelativeLayout>
 

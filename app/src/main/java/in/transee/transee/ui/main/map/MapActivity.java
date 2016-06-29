@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ import javax.inject.Inject;
 import in.transee.transee.R;
 import in.transee.transee.TranseeApplication;
 import in.transee.transee.data.city.City;
+import in.transee.transee.data.favorite.Favorite;
 import in.transee.transee.data.position.Positions;
 import in.transee.transee.data.route.Routes;
 import in.transee.transee.data.transport.info.TransportInfo;
@@ -38,6 +40,7 @@ import in.transee.transee.injection.component.BaseActivityComponent;
 import in.transee.transee.injection.module.ActivityModule;
 import in.transee.transee.ui.base.BaseActivity;
 import in.transee.transee.ui.main.city_chooser.CityChooserActivity;
+import in.transee.transee.ui.main.settings.SettingsActivity;
 import in.transee.transee.ui.main.transport_chooser.TransportChooserActivity;
 
 /**
@@ -52,6 +55,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
     @Inject MapPresenter presenter;
     @Inject GoogleMapPresenter googleMapPresenter;
     @Inject TransportInfoRvAdapter transportInfoAdapter;
+    private FavoritesRvAdapter favoritesAdapter;
 
     private DrawerLayout drawer;
     private FloatingActionButton fabChooseTransport;
@@ -59,6 +63,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
     private TextView tvTransportName;
     private TextView tvTransportGosId;
     private ProgressBar pbTransportInfo;
+    private ImageView ivFavorite;
 
     private City currentCity;
 
@@ -94,6 +99,13 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
         rvTransportInfo.setLayoutManager(new LinearLayoutManager(this));
         rvTransportInfo.setAdapter(transportInfoAdapter);
 
+        ivFavorite = (ImageView) findViewById(R.id.iv_favorite);
+
+        RecyclerView rvFavorites = (RecyclerView) findViewById(R.id.rv_favorites);
+        rvFavorites.setLayoutManager(new LinearLayoutManager(this));
+        favoritesAdapter = new FavoritesRvAdapter(this, presenter);
+        rvFavorites.setAdapter(favoritesAdapter);
+
         fabChooseTransport = (FloatingActionButton) findViewById(R.id.fab_choose_transport);
         fabChooseTransport.setOnClickListener(v -> {
             Intent intent = new Intent(this, TransportChooserActivity.class);
@@ -109,6 +121,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
         googleMapPresenter.attachView(this);
         presenter.attachView(this);
         presenter.setCurrentCity(currentCity.getId());
+        presenter.loadFavorites();
     }
 
     @Override
@@ -169,16 +182,41 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
         googleMap.setOnMarkerClickListener(marker -> {
             marker.showInfoWindow();
             showBottomSheetShort();
+
             String[] snippet = marker.getSnippet().split("/");
             String type = snippet[0];
             String gosId= snippet[1];
+            String itemId= snippet[2];
+
             tvTransportName.setText(marker.getTitle());
             tvTransportGosId.setText(gosId);
-            presenter.setTypeAndGosId(type, gosId);
+            setupFavoritesButton(marker.getTitle());
+
+            presenter.setType(type);
+            presenter.setGosId(gosId);
+            presenter.setItemId(itemId);
+
             presenter.loadTransportInfo();
             return true;
         });
         googleMap.setOnMapClickListener(latLng -> hideBottomSheet());
+    }
+
+    private void setupFavoritesButton(String transportName) {
+        ivFavorite.setImageResource(presenter.isFavorite(transportName) ?
+                R.drawable.ic_star_accent_48 : R.drawable.ic_star_outline_accent_48);
+
+        ivFavorite.setOnClickListener(v -> {
+            if (presenter.isFavorite(transportName)) {
+                ivFavorite.setImageResource(R.drawable.ic_star_outline_accent_48);
+                presenter.deleteFromFavorite(transportName);
+            } else {
+                ivFavorite.setImageResource(R.drawable.ic_star_accent_48);
+                presenter.addToFavorite(transportName);
+            }
+            favoritesAdapter.clear();
+            presenter.loadFavorites();
+        });
     }
 
     @Override
@@ -202,7 +240,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
     @Override
     public void showErrorTransportPositions(@StringRes int message) {
         Snackbar
-                .make(toolbar, message, Snackbar.LENGTH_INDEFINITE)
+                .make(fabChooseTransport, message, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_retry, v -> presenter.loadTransport())
                 .show();
     }
@@ -278,9 +316,14 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
     @Override
     public void showErrorTransportInfo(@StringRes int message) {
         Snackbar
-                .make(toolbar, message, Snackbar.LENGTH_INDEFINITE)
+                .make(fabChooseTransport, message, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_retry, v -> presenter.loadTransportInfo())
                 .show();
+    }
+
+    @Override
+    public void showFavorites(List<Favorite> favorites) {
+        favoritesAdapter.setData(favorites);
     }
 
     public void onChangeCityClick(View view) {
@@ -290,7 +333,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
     }
 
     public void onSettingsClick(View view) {
-        Snackbar.make(fabChooseTransport, "Settings", Snackbar.LENGTH_LONG).show();
+        SettingsActivity.start(this);
         onBackPressed();
     }
 }

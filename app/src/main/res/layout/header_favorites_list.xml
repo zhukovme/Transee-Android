@@ -3,12 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clickable="true">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nav_history_title"
+        android:text="@string/nav_favorites_title"
         android:layout_margin="@dimen/activity_horizontal_margin"/>
 
 </LinearLayout>

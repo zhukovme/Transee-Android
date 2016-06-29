@@ -33,13 +33,15 @@
         <activity
             android:name=".ui.main.map.MapActivity"
             android:theme="@style/AppTheme.Default"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleInstance"/>
 
         <activity
             android:name=".ui.main.transport_chooser.TransportChooserActivity"
-            android:theme="@style/AppTheme.Default"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/AppTheme.Default"/>
+
+        <activity
+            android:name=".ui.main.settings.SettingsActivity"
+            android:theme="@style/AppTheme.Default"/>
 
     </application>
 

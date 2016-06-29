@@ -3,17 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
         android:gravity="center_vertical"
-        android:textSize="15sp"
         android:textColor="@android:color/black"
+        android:drawableLeft="@drawable/ic_map_marker_grey600_24dp"
+        android:drawableStart="@drawable/ic_map_marker_grey600_24dp"
         android:drawablePadding="@dimen/activity_horizontal_margin"
-        android:drawableLeft="@drawable/ic_map_marker_grey600_24dp"/>
+        android:layout_margin="@dimen/activity_horizontal_margin"/>
 
 </LinearLayout>

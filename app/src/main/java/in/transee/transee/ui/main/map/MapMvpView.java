@@ -4,6 +4,7 @@ import android.support.annotation.StringRes;
 
 import java.util.List;
 
+import in.transee.transee.data.favorite.Favorite;
 import in.transee.transee.data.position.Positions;
 import in.transee.transee.data.route.Routes;
 import in.transee.transee.data.transport.info.TransportInfo;
@@ -29,4 +30,6 @@ public interface MapMvpView extends MvpView {
     void hideTransportInfoProgressBar();
 
     void showErrorTransportInfo(@StringRes int message);
+
+    void showFavorites(List<Favorite> favorites);
 }

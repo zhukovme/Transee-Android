@@ -139,7 +139,6 @@ public class Repository {
 
     public Observable<List<Favorite>> getFavorites(String city) {
         List<Favorite> favorites = favoriteDao.getAll(city);
-
         if (favorites != null && !favorites.isEmpty()) {
             return Observable
                     .just(favorites);
@@ -159,7 +158,10 @@ public class Repository {
         favoriteDao.deleteItem(city, name);
     }
 
-    public void deleteAllFromFavorite() {
+    public void clearCache() {
+        cityDao.deleteAll();
+        transportsDao.deleteAll();
+        transportItemDao.deleteAll();
         favoriteDao.deleteAll();
     }
 }

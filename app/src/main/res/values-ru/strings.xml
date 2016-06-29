@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_short_info">Карманный трекер общественного транспорта</string>
-    <string name="nav_history_title">История</string>
-    <string name="nav_settings_title">Настройки</string>
-    <string name="nav_change_city_title">Сменить город</string>
-    <string name="choose_city_title">Выберите город</string>
-    <string name="loading_message">Загрузка</string>
-    <string name="error_msg">Что-то пошло не так</string>
-    <string name="empty_msg">Здесь пусто</string>
-    <string name="now">Сейчас</string>
-    <string name="in_a">Через</string>
-    <string name="hour_short">ч</string>
-    <string name="minute_short">мин</string>
-
     <string name="astrakhan">Астрахань</string>
     <string name="barnaul">Барнаул</string>
     <string name="veliky_novgorod">Великий Новгород</string>
@@ -27,5 +13,22 @@
     <string name="trolleybus">Троллейбус</string>
     <string name="tram">Трамвай</string>
     <string name="minibus_taxi">Маршрутное такси</string>
+    <string name="clear_cache_summary">Удалить все сохраненные данные</string>
+
+    <string name="app_short_info">Карманный трекер общественного транспорта</string>
+    <string name="nav_favorites_title">Избранное</string>
+    <string name="nav_settings_title">Настройки</string>
+    <string name="nav_change_city_title">Сменить город</string>
+    <string name="choose_city_title">Выберите город</string>
+    <string name="loading_message">Загрузка</string>
+    <string name="error_msg">Что-то пошло не так</string>
+    <string name="empty_msg">Здесь пусто</string>
+    <string name="now">Сейчас</string>
+    <string name="in_a">Через</string>
+    <string name="hour_short">ч</string>
+    <string name="minute_short">мин</string>
+    <string name="clear_cache">Очистить кэш</string>
+    <string name="app_cache">Кэш приложения</string>
+    <string name="settings">Настройки</string>
 
 </resources>

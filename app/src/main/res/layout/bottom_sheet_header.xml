@@ -13,7 +13,7 @@
         android:padding="@dimen/activity_horizontal_margin"/>
 
     <ImageView
-        android:id="@+id/iv_add_to_favorites"
+        android:id="@+id/iv_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_star_outline_accent_48"
@@ -28,8 +28,8 @@
         android:orientation="vertical"
         android:layout_toRightOf="@id/iv_transport_icon"
         android:layout_toEndOf="@id/iv_transport_icon"
-        android:layout_toLeftOf="@id/iv_add_to_favorites"
-        android:layout_toStartOf="@id/iv_add_to_favorites"
+        android:layout_toLeftOf="@id/iv_favorite"
+        android:layout_toStartOf="@id/iv_favorite"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"

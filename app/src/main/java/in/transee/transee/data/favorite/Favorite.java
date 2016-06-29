@@ -34,9 +34,11 @@ public class Favorite {
     Favorite() {
     }
 
-    public Favorite(String city, String name) {
+    public Favorite(String city, String name, String type, String itemId) {
         this.city = city;
         this.name = name;
+        this.type = type;
+        this.itemId = itemId;
     }
 
     public String getName() {
@@ -47,12 +49,12 @@ public class Favorite {
         return city;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getType() {
+        return type;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public String getItemId() {
+        return itemId;
     }
 
     public HashMap<String, List<String>> getMapId() {

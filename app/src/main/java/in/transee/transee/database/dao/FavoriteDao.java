@@ -53,12 +53,12 @@ public class FavoriteDao extends BaseDaoImpl<Favorite, Integer> {
 
     public void deleteItem(String city, String name) {
         try {
-            List<Favorite> favorites = queryBuilder().where()
+            Favorite favorites = queryBuilder().where()
                     .eq(Favorite.CITY_FIELD_NAME, city)
                     .and()
                     .eq(Favorite.NAME_FIELD_NAME, name)
-                    .query();
-            if (favorites != null && !favorites.isEmpty()) {
+                    .queryForFirst();
+            if (favorites != null) {
                 delete(favorites);
             }
         } catch (SQLException e) {
