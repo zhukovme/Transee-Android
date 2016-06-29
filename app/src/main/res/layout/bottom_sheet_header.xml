@@ -9,17 +9,16 @@
         android:id="@+id/iv_transport_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_bus_grey600_24dp"
+        android:src="@drawable/ic_bus_white_48dp"
         android:padding="@dimen/activity_horizontal_margin"/>
 
     <ImageView
         android:id="@+id/iv_add_to_favorites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_magnify_white_24dp"
+        android:src="@drawable/ic_star_outline_accent_48"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="onButtonAddToFavoriteClick"
         android:padding="@dimen/activity_horizontal_margin"/>
 
     <LinearLayout
@@ -59,6 +58,7 @@
         android:id="@+id/pb_transport_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         style="?android:attr/progressBarStyleHorizontal"
         android:indeterminateOnly="true"
         android:layout_alignParentBottom="true"

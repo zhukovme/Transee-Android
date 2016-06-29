@@ -9,6 +9,10 @@
     <string name="loading_message">Загрузка</string>
     <string name="error_msg">Что-то пошло не так</string>
     <string name="empty_msg">Здесь пусто</string>
+    <string name="now">Сейчас</string>
+    <string name="in_a">Через</string>
+    <string name="hour_short">ч</string>
+    <string name="minute_short">мин</string>
 
     <string name="astrakhan">Астрахань</string>
     <string name="barnaul">Барнаул</string>

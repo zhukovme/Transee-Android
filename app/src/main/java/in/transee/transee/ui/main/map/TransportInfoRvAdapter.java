@@ -1,5 +1,6 @@
 package in.transee.transee.ui.main.map;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import javax.inject.Inject;
 
 import in.transee.transee.R;
 import in.transee.transee.data.transport.info.TransportInfo;
+import in.transee.transee.injection.ActivityContext;
+import in.transee.transee.util.TimeUtil;
 
 /**
  * @author Michael Zhukov
@@ -20,10 +23,12 @@ import in.transee.transee.data.transport.info.TransportInfo;
 public class TransportInfoRvAdapter
         extends RecyclerView.Adapter<TransportInfoRvAdapter.TransportInfoVH> {
 
+    private final Context context;
     private List<TransportInfo> transportInfoList;
 
     @Inject
-    public TransportInfoRvAdapter() {
+    public TransportInfoRvAdapter(@ActivityContext Context context) {
+        this.context = context;
         this.transportInfoList = new ArrayList<>();
     }
 
@@ -49,9 +54,10 @@ public class TransportInfoRvAdapter
     public void onBindViewHolder(TransportInfoVH holder, int position) {
         TransportInfo transportInfo = transportInfoList.get(position);
 
-        holder.tvTime.setText("Скоро");
-        holder.rvStation.setText(transportInfo.getTime());
-        holder.tvTimeDifference.setText(transportInfo.getStation());
+        String timeDif = TimeUtil.getMinuteDiff(context, transportInfo.getTime());
+        holder.tvTime.setText(transportInfo.getTime());
+        holder.rvStation.setText(transportInfo.getStation());
+        holder.tvTimeDifference.setText(timeDif);
     }
 
     @Override

@@ -165,9 +165,11 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
         googleMapPresenter.moveCamera(currentCity.getCoordinates(), 12);
 //        googleMap.setMyLocationEnabled(true);
 //        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMapPresenter.setInfoWindowAdapter();
         googleMap.setOnMarkerClickListener(marker -> {
-            showBottomSheet();
-            String[] snippet = marker.getSnippet().split(" ");
+            marker.showInfoWindow();
+            showBottomSheetShort();
+            String[] snippet = marker.getSnippet().split("/");
             String type = snippet[0];
             String gosId= snippet[1];
             tvTransportName.setText(marker.getTitle());
@@ -227,7 +229,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
         });
     }
 
-    public void showBottomSheet() {
+    public void showBottomSheetShort() {
         int headerHeight = getResources().getInteger(R.integer.bottom_sheet_header_height);
         if (bsBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
             bsBehavior.setPeekHeight(headerHeight);

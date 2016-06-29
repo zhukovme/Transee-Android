@@ -95,16 +95,15 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                         transportInfoList -> {
                             if (transportInfoList.isEmpty()) {
                                 getMvpView().showTransportInfoEmpty();
-                                getMvpView().showErrorTransportInfo(R.string.empty_msg);
                             } else {
                                 getMvpView().showTransportInfo(transportInfoList);
+                                getMvpView().hideTransportInfoProgressBar();
                             }
                         },
                         throwable -> {
                             getMvpView().showErrorTransportInfo(R.string.error_msg);
                             Timber.d(throwable, "Error while loading transport info");
-                        },
-                        getMvpView()::hideTransportInfoProgressBar);
+                        });
         subscriptions.add(transportInfoSubscription);
     }
 

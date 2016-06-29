@@ -1,6 +1,9 @@
 package in.transee.transee.ui.main.map;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,6 +18,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import in.transee.transee.R;
 import in.transee.transee.data.position.PositionItem;
 import in.transee.transee.data.position.Positions;
 import in.transee.transee.data.position.Vehicle;
@@ -62,6 +66,25 @@ public class GoogleMapPresenter extends BasePresenter<MapMvpView> {
         }
     }
 
+    public void setInfoWindowAdapter() {
+        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                View rootView = LayoutInflater
+                        .from(context)
+                        .inflate(R.layout.marker_info_window, null);
+                TextView tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
+                tvTitle.setText(marker.getTitle());
+                return rootView;
+            }
+        });
+    }
+
     public void drawRoutes(List<Routes> routesList) {
         for (Routes routes : routesList) {
             for (RouteItem item : routes.getItems()) {
@@ -84,7 +107,7 @@ public class GoogleMapPresenter extends BasePresenter<MapMvpView> {
                 for (Vehicle vehicle : item.getVehicles()) {
                     Marker marker = drawMarker(
                             positions.getName(context) + " № " + item.getName(),
-                            positions.getType() + " " + vehicle.getGosId(),
+                            positions.getType() + "/" + vehicle.getGosId(),
                             vehicle.getPosition(),
                             vehicle.getAngle(),
                             transportIconGenerator.getIcon(
