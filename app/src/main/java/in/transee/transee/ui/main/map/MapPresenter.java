@@ -22,10 +22,12 @@ import timber.log.Timber;
 public class MapPresenter extends BasePresenter<MapMvpView> {
 
     private final Repository repository;
+    private CompositeSubscription subscriptions;
 
     private String currentCity;
     private Map<String, List<String>> transportIds;
-    private CompositeSubscription subscriptions;
+    private String type;
+    private String gosId;
 
     @Inject
     public MapPresenter(Repository repository) {
@@ -49,6 +51,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     public void loadTransport() {
         unsubscribe();
         subscriptions = new CompositeSubscription();
+
         Subscription routesSubscription = repository
                 .getRoutes(currentCity, transportIds)
                 .subscribeOn(Schedulers.io())
@@ -56,7 +59,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                 .subscribe(
                         getMvpView()::showTransportRoutes,
                         throwable -> {
-                            getMvpView().showError(R.string.error_msg);
+                            getMvpView().showErrorTransportPositions(R.string.error_msg);
                             Timber.d(throwable, "Error while loading routes");
                         });
 
@@ -69,12 +72,40 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
                 .subscribe(
                         getMvpView()::showTransportPositions,
                         throwable -> {
-                            getMvpView().showError(R.string.error_msg);
+                            getMvpView().showErrorTransportPositions(R.string.error_msg);
                             Timber.d(throwable, "Error while loading positions");
                         });
 
         subscriptions.add(routesSubscription);
         subscriptions.add(positionsSubscription);
+    }
+
+    public void setTypeAndGosId(String type, String gosId) {
+        this.type = type;
+        this.gosId = gosId;
+    }
+
+    public void loadTransportInfo() {
+        getMvpView().showTransportInfoProgressBar();
+        Subscription transportInfoSubscription = repository
+                .getTransportInfo(currentCity, type, gosId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        transportInfoList -> {
+                            if (transportInfoList.isEmpty()) {
+                                getMvpView().showTransportInfoEmpty();
+                                getMvpView().showErrorTransportInfo(R.string.empty_msg);
+                            } else {
+                                getMvpView().showTransportInfo(transportInfoList);
+                            }
+                        },
+                        throwable -> {
+                            getMvpView().showErrorTransportInfo(R.string.error_msg);
+                            Timber.d(throwable, "Error while loading transport info");
+                        },
+                        getMvpView()::hideTransportInfoProgressBar);
+        subscriptions.add(transportInfoSubscription);
     }
 
     private void unsubscribe() {

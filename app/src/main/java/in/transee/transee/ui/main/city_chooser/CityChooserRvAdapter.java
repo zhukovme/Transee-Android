@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,7 +37,7 @@ public class CityChooserRvAdapter extends RecyclerView.Adapter<CityChooserRvAdap
     }
 
     public void clear() {
-        this.cities = Collections.<City>emptyList();
+        this.cities.clear();
         notifyDataSetChanged();
     }
 

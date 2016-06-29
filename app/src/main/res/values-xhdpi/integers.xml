@@ -2,7 +2,8 @@
 <resources>
     <integer name="transport_icon_width">48</integer>
     <integer name="transport_icon_height">65</integer>
-    <integer name="transport_icon_text_size">11</integer>
+    <integer name="transport_icon_text_size">23</integer>
     <integer name="transport_icon_stroke_width">1</integer>
     <integer name="transport_icon_max_text_length">3</integer>
+    <integer name="bottom_sheet_header_height">210</integer>
 </resources>

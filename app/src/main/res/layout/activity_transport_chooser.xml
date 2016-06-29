@@ -52,7 +52,6 @@
         android:src="@drawable/ic_crosshairs_gps_white_24dp"
         app:layout_anchor="@id/pager"
         app:layout_anchorGravity="bottom|right|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:onClick="onFabLocateTransportClick"/>
+        android:layout_margin="@dimen/fab_margin"/>
 
 </android.support.design.widget.CoordinatorLayout>

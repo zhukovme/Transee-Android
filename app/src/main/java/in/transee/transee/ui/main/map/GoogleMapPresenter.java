@@ -21,22 +21,25 @@ import in.transee.transee.data.position.Vehicle;
 import in.transee.transee.data.route.RouteItem;
 import in.transee.transee.data.route.Routes;
 import in.transee.transee.injection.ActivityContext;
+import in.transee.transee.ui.base.BasePresenter;
 import in.transee.transee.util.ColorGenerator;
 import in.transee.transee.util.TransportIconGenerator;
 
 /**
  * Created by Zhukov Michael.
  */
-public class GoogleMapHelper {
+public class GoogleMapPresenter extends BasePresenter<MapMvpView> {
 
     private final Context context;
+
     private GoogleMap googleMap;
+
     private List<Marker> markerList;
     private TransportIconGenerator transportIconGenerator;
     private ColorGenerator colorGenerator = ColorGenerator.getInstance();
 
     @Inject
-    public GoogleMapHelper(@ActivityContext Context context) {
+    public GoogleMapPresenter(@ActivityContext Context context) {
         this.context = context;
         markerList = new ArrayList<>();
         transportIconGenerator = new TransportIconGenerator(context);
@@ -81,7 +84,7 @@ public class GoogleMapHelper {
                 for (Vehicle vehicle : item.getVehicles()) {
                     Marker marker = drawMarker(
                             positions.getName(context) + " № " + item.getName(),
-                            vehicle.getGosId(),
+                            positions.getType() + " " + vehicle.getGosId(),
                             vehicle.getPosition(),
                             vehicle.getAngle(),
                             transportIconGenerator.getIcon(

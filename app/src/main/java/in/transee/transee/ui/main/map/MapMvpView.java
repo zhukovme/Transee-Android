@@ -6,6 +6,7 @@ import java.util.List;
 
 import in.transee.transee.data.position.Positions;
 import in.transee.transee.data.route.Routes;
+import in.transee.transee.data.transport.info.TransportInfo;
 import in.transee.transee.ui.base.MvpView;
 
 /**
@@ -17,9 +18,15 @@ public interface MapMvpView extends MvpView {
 
     void showTransportPositions(List<Positions> positionsList);
 
-    void showError(@StringRes int message);
+    void showErrorTransportPositions(@StringRes int message);
 
-    void showProgressBar();
+    void showTransportInfo(List<TransportInfo> transportInfoList);
 
-    void hideProgressBar();
+    void showTransportInfoEmpty();
+
+    void showTransportInfoProgressBar();
+
+    void hideTransportInfoProgressBar();
+
+    void showErrorTransportInfo(@StringRes int message);
 }
