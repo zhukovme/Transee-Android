@@ -52,6 +52,7 @@ public class MapPresenter extends BasePresenter<MapMvpView> {
     }
 
     public void loadTransport() {
+        getMvpView().clearMap();
         unsubscribe();
         subscriptions = new CompositeSubscription();
 

@@ -30,5 +30,9 @@
     <string name="clear_cache">Очистить кэш</string>
     <string name="app_cache">Кэш приложения</string>
     <string name="settings">Настройки</string>
+    <string name="ok">OK</string>
+    <string name="request_location_permissions">Необходимы права на определение местоположения</string>
+    <string name="location_permissions_granted">Теперь мы можем определить ваше местоположение</string>
+    <string name="permissions_not_granted">Права доступа не были предоставлены</string>
 
 </resources>

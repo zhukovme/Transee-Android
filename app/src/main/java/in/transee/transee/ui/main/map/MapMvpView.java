@@ -19,6 +19,8 @@ public interface MapMvpView extends MvpView {
 
     void showTransportPositions(List<Positions> positionsList);
 
+    void clearMap();
+
     void showErrorTransportPositions(@StringRes int message);
 
     void showTransportInfo(List<TransportInfo> transportInfoList);

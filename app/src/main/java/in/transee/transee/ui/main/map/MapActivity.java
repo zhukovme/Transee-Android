@@ -1,5 +1,6 @@
 package in.transee.transee.ui.main.map;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,13 +8,12 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -42,6 +42,7 @@ import in.transee.transee.ui.base.BaseActivity;
 import in.transee.transee.ui.main.city_chooser.CityChooserActivity;
 import in.transee.transee.ui.main.settings.SettingsActivity;
 import in.transee.transee.ui.main.transport_chooser.TransportChooserActivity;
+import in.transee.transee.util.PermissionUtil;
 
 /**
  * @author Michael Zhukov
@@ -51,6 +52,10 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
     public static final String CURRENT_CITY_EXTRA = "current_city_extra";
     public static final String SELECTED_TRANSPORT_EXTRA = "selected_transport_extra";
     public static final int TRANSPORT_CHOOSER_REQUEST = 1;
+
+    private static final int REQUEST_LOCATION = 0;
+    private static final String[] PERMISSIONS_LOCATION = {Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION};
 
     @Inject MapPresenter presenter;
     @Inject GoogleMapPresenter googleMapPresenter;
@@ -121,6 +126,12 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
         googleMapPresenter.attachView(this);
         presenter.attachView(this);
         presenter.setCurrentCity(currentCity.getId());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        favoritesAdapter.clear();
         presenter.loadFavorites();
     }
 
@@ -131,22 +142,6 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
             googleMapPresenter.clear();
         }
         presenter.detachView();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.map, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
@@ -164,20 +159,23 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TRANSPORT_CHOOSER_REQUEST && resultCode == RESULT_OK) {
-            googleMapPresenter.clear();
-            googleMapPresenter.moveCamera(currentCity.getCoordinates(), 12);
             Map selectedTransport = (HashMap) data.getSerializableExtra(SELECTED_TRANSPORT_EXTRA);
             presenter.setTransportIds(selectedTransport);
             presenter.loadTransport();
         }
     }
 
+    @SuppressWarnings("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMapPresenter.setGoogleMap(googleMap);
         googleMapPresenter.moveCamera(currentCity.getCoordinates(), 12);
-//        googleMap.setMyLocationEnabled(true);
-//        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        if (PermissionUtil.checkLocationPermissions(this)) {
+            requestLocationPermissions();
+        } else {
+            googleMap.setMyLocationEnabled(true);
+        }
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         googleMapPresenter.setInfoWindowAdapter();
         googleMap.setOnMarkerClickListener(marker -> {
             marker.showInfoWindow();
@@ -185,8 +183,8 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
 
             String[] snippet = marker.getSnippet().split("/");
             String type = snippet[0];
-            String gosId= snippet[1];
-            String itemId= snippet[2];
+            String gosId = snippet[1];
+            String itemId = snippet[2];
 
             tvTransportName.setText(marker.getTitle());
             tvTransportGosId.setText(gosId);
@@ -238,6 +236,13 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
     }
 
     @Override
+    public void clearMap() {
+        hideBottomSheet();
+        googleMapPresenter.clear();
+        googleMapPresenter.moveCamera(currentCity.getCoordinates(), 12);
+    }
+
+    @Override
     public void showErrorTransportPositions(@StringRes int message) {
         Snackbar
                 .make(fabChooseTransport, message, Snackbar.LENGTH_INDEFINITE)
@@ -281,6 +286,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
     }
 
     public void bottomSheetOnClick() {
+
         switch (bsBehavior.getState()) {
             case BottomSheetBehavior.STATE_COLLAPSED:
                 bsBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -335,5 +341,39 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Map
     public void onSettingsClick(View view) {
         SettingsActivity.start(this);
         onBackPressed();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION) {
+            if (PermissionUtil.verifyPermissions(grantResults)) {
+                Snackbar.make(fabChooseTransport, R.string.location_permissions_granted,
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            } else {
+                Snackbar.make(fabChooseTransport, R.string.permissions_not_granted,
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void requestLocationPermissions() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                || ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+            Snackbar.make(fabChooseTransport, R.string.request_location_permissions,
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.ok, view -> ActivityCompat.requestPermissions(this,
+                            PERMISSIONS_LOCATION, REQUEST_LOCATION))
+                    .show();
+        } else {
+            ActivityCompat.requestPermissions(this, PERMISSIONS_LOCATION, REQUEST_LOCATION);
+        }
     }
 }
