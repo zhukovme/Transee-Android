@@ -21,13 +21,11 @@
     <string name="minibus_taxi">Minibus taxi</string>
 
     <string name="app_short_info">App for tracking public transport</string>
-    <string name="action_search">Search</string>
     <string name="action_retry">Retry</string>
     <string name="nav_favorites_title">Favorites</string>
     <string name="nav_settings_title">Settings</string>
     <string name="nav_change_city_title">Change city</string>
     <string name="choose_city_title">Choose city</string>
-    <string name="loading_message">Loading</string>
     <string name="error_msg">Something went wrong</string>
     <string name="empty_msg">Nothing here</string>
     <string name="now">Now</string>

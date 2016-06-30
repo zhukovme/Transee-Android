@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_metrica_api_key">b2ea13ad-5266-4cb1-b369-3c288e08757d</string>
+    <string name="app_metrica_api_key" translatable="false">b2ea13ad-5266-4cb1-b369-3c288e08757d</string>
 </resources>

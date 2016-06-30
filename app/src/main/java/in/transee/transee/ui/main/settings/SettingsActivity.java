@@ -66,7 +66,8 @@ public class SettingsActivity extends BaseActivity {
             Preference clearEventsCache = findPreference(getString(R.string.pref_clear_cache));
             clearEventsCache.setOnPreferenceClickListener(preference -> {
                 repository.clearCache();
-                Toast.makeText(getActivity(), "Cache cleared", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Cache cleared", Toast.LENGTH_SHORT)
+                        .show();
                 return true;
             });
         }
